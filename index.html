@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>vocaloid.in | Miku Edition</title>
+    <title>vocaloid.in | Prism Gate</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -50,18 +50,13 @@
             transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1);
         }
 
-        .gate-content { text-align: center; color: white; position: relative; }
-
-        .miku-gif {
-            width: 150px;
-            margin-bottom: -20px;
-            filter: drop-shadow(0 0 15px var(--accent));
-        }
+        .gate-content { text-align: center; color: white; }
 
         .welcome-text {
             font-size: 6rem;
             font-weight: 800;
             letter-spacing: -4px;
+            margin-bottom: 10px;
             background: linear-gradient(to bottom, #fff, #666);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -70,7 +65,15 @@
 
         @keyframes floatText {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .gate-status {
+            font-family: 'Space Grotesk';
+            font-size: 0.9rem;
+            letter-spacing: 5px;
+            margin-bottom: 40px;
+            opacity: 0.5;
         }
 
         .enter-trigger {
@@ -83,7 +86,6 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 4px;
-            margin-top: 30px;
             transition: all 0.4s;
         }
 
@@ -102,18 +104,6 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            position: relative;
-        }
-
-        .miku-hero-img {
-            position: absolute;
-            right: -50px;
-            bottom: 0;
-            height: 90vh;
-            z-index: -1;
-            opacity: 0.15;
-            pointer-events: none;
-            transition: 2s ease;
         }
 
         .hero-title {
@@ -132,10 +122,10 @@
         /* --- BUTTONS --- */
         .btn-row { display: flex; gap: 15px; margin-top: 30px; opacity: 0; transform: translateY(20px); transition: 1s ease 0.8s; }
         .btn-row.show { opacity: 1; transform: translateY(0); }
-        .btn { padding: 20px 45px; text-decoration: none; border-radius: 100px; font-weight: 700; transition: 0.3s; }
-        .btn-discord { background: var(--dark); color: white; }
+        .btn { padding: 20px 45px; text-decoration: none; border-radius: 100px; font-weight: 700; font-size: 1rem; transition: 0.3s; }
+        .btn-discord { background: var(--dark); color: white; border: 1px solid var(--dark); }
         .btn-insta { background: transparent; color: var(--dark); border: 1px solid #ddd; }
-        .btn:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .btn:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
 
         /* --- GRID --- */
         .features-grid {
@@ -158,6 +148,8 @@
         .feature-card.reveal { opacity: 1; transform: translateY(0); }
         .feature-card:hover { background: var(--dark); color: white; border-color: var(--dark); }
         .feature-card i { font-size: 2.2rem; color: var(--accent); margin-bottom: 25px; display: block; }
+        .feature-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
+        .feature-card p { line-height: 1.6; opacity: 0.8; }
 
         .image-frame {
             border-radius: var(--br);
@@ -181,9 +173,8 @@
 
     <div id="welcome-gate">
         <div class="gate-content">
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJndmthZzRteXNidm5wZ2Y1am8waGZpbm1oZ3Z3bm9qbm90bmZpayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/v96752N8Fq1qWvT2I7/giphy.gif" class="miku-gif" alt="Miku Wave">
             <h1 class="welcome-text">WELCOME</h1>
-            <h2 class="gate-status" style="font-family: 'Space Grotesk'; letter-spacing: 5px; opacity: 0.5;">VOCALOID.IN</h2>
+            <h2 class="gate-status">VOCALOID.IN COLLECTIVE</h2>
             <button class="enter-trigger" onclick="unlockGate()">Enter Garden</button>
         </div>
     </div>
@@ -191,8 +182,6 @@
     <div id="main-site">
         <div class="container">
             <header>
-                <img src="https://www.pngmart.com/files/22/Hatsune-Miku-PNG-Transparent.png" class="miku-hero-img" id="hero-miku">
-                
                 <p style="font-family: 'Space Grotesk'; letter-spacing: 4px; color: var(--gray); margin-bottom: 15px;">EST. 2026 // INDIA</p>
                 <h1 class="hero-title" id="hero-text">vocaloid.in</h1>
                 
@@ -247,6 +236,7 @@
     </div>
 
     <script>
+        // CURSOR LOGIC
         const cursor = document.getElementById('cursor');
         const follower = document.getElementById('cursor-follower');
         let cx = 0, cy = 0, fx = 0, fy = 0;
@@ -266,23 +256,24 @@
         }
         animateFollower();
 
+        // GATE LOGIC
         function unlockGate() {
             const gate = document.getElementById('welcome-gate');
             const main = document.getElementById('main-site');
-            const mikuHero = document.getElementById('hero-miku');
+            const heroText = document.getElementById('hero-text');
+            const heroBtns = document.getElementById('hero-btns');
             
             gate.style.transform = 'translateY(-100%)';
             main.style.opacity = '1';
             document.body.style.overflow = 'auto';
             
             setTimeout(() => {
-                document.getElementById('hero-text').classList.add('show');
-                document.getElementById('hero-btns').classList.add('show');
-                mikuHero.style.opacity = '0.4'; // Miku appears clearly
-                mikuHero.style.transform = 'translateX(-20px)';
+                heroText.classList.add('show');
+                heroBtns.classList.add('show');
             }, 600);
         }
 
+        // SCROLL REVEALS
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if(entry.isIntersecting) entry.target.classList.add('reveal');
@@ -291,6 +282,7 @@
 
         document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
 
+        // CURSOR INTERACTIONS
         document.querySelectorAll('.enter-trigger, .feature-card, a, button').forEach(el => {
             el.addEventListener('mouseenter', () => {
                 follower.style.transform = 'translate(-50%, -50%) scale(2.5)';
