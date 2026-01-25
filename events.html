@@ -107,8 +107,10 @@
         .event-content h3 { font-size: 1.8rem; margin-bottom: 15px; letter-spacing: -0.5px; }
         .event-content p { color: #666; margin-bottom: 25px; font-size: 1rem; }
 
+        /* --- BUTTONS --- */
+        .btn-group { display: flex; align-items: center; gap: 12px; }
+
         .event-btn {
-            align-self: flex-start;
             padding: 14px 30px;
             background: var(--dark);
             color: white;
@@ -122,6 +124,22 @@
         }
 
         .event-btn:hover { background: var(--accent); color: var(--dark); }
+
+        .remind-btn {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #eee;
+            border-radius: 50%;
+            color: var(--dark);
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .remind-btn:hover { border-color: var(--accent); color: var(--accent); background: #f0ffff; }
 
         footer { padding: 80px 0; text-align: center; border-top: 1px solid #eee; margin-top: 100px; opacity: 0.6; }
 
@@ -155,7 +173,14 @@
                 </div>
                 <h3> Monday Music Night – Week 2 </h3>
                 <p>📅 26 January 2026 (Monday)<br>⏰ 8:00 PM – 9:00 PM<br>🎶 Listening Night <br>Turning Monday into a low-key night club — good beats, smooth transitions, no rush ✨</p>
-                <a href="https://discord.com/channels/1460662659337949217/1461044755302584492/1464986384350843058" target="_blank" class="event-btn">Tap To Know More</a>
+                
+                <div class="btn-group">
+                    <a href="https://discord.com/channels/1460662659337949217/1461044755302584492/1464986384350843058" target="_blank" class="event-btn">Tap To Know More</a>
+                    
+                    <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Monday+Music+Night+vocaloid.in&dates=20260126T200000/20260126T210000&details=Low-key+night+club+beats+at+vocaloid.in+Discord.&location=Discord" target="_blank" class="remind-btn" title="Add to Google Calendar">
+                        <i class="fa-solid fa-calendar-plus"></i>
+                    </a>
+                </div>
             </div>
         </div>
 
