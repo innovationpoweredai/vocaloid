@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events | vocaloid.in</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #ffffff; --accent: #00f2ea; --dark: #0a0a0a; --gray: #94a3b8; --br: 32px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        body { background-color: var(--bg); color: var(--dark); font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        #cursor { width: 10px; height: 10px; background: var(--dark); position: fixed; border-radius: 50%; pointer-events: none; z-index: 10001; mix-blend-mode: difference; }
+        #cursor-follower { width: 40px; height: 40px; border: 1px solid var(--dark); position: fixed; border-radius: 50%; pointer-events: none; z-index: 10000; transition: transform 0.2s ease-out; }
+
+        nav {
+            position: fixed; top: 30px; left: 50%; transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(15px);
+            padding: 12px 40px; border-radius: 100px; border: 1px solid rgba(0,0,0,0.05);
+            display: flex; gap: 40px; z-index: 2000;
+        }
+        nav a { text-decoration: none; color: var(--dark); font-family: 'Space Grotesk'; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 2px; }
+        nav a:hover { color: var(--accent); }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 150px 40px; }
+        h1 { font-size: 4rem; font-weight: 800; letter-spacing: -3px; margin-bottom: 50px; }
+
+        .event-card {
+            background: #fff; border: 1px solid #eee; padding: 40px; border-radius: var(--br);
+            margin-bottom: 20px; transition: 0.4s; display: flex; align-items: center; gap: 40px;
+        }
+        .event-card:hover { border-color: var(--accent); transform: translateX(10px); }
+        .date-box { min-width: 80px; text-align: center; font-family: 'Space Grotesk'; }
+        .date-box span { display: block; font-weight: 800; font-size: 1.5rem; }
+        .info h3 { font-size: 1.6rem; margin-bottom: 8px; }
+        .tag { padding: 5px 15px; background: #f0f0f0; border-radius: 50px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+
+        footer { padding: 80px 0; text-align: center; border-top: 1px solid #eee; margin-top: 100px; }
+    </style>
+</head>
+<body>
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="events.html" style="color: var(--accent);">Events</a>
+    </nav>
+
+    <div class="container">
+        <p style="font-family: 'Space Grotesk'; color: var(--accent); letter-spacing: 5px; margin-bottom: 15px;">2026 CALENDAR</p>
+        <h1>Upcoming Events</h1>
+
+        <div class="event-card">
+            <div class="date-box"><span>MAR</span>09</div>
+            <div class="info">
+                <h3>Miku Day 2026</h3>
+                <p>Annual community showcase and art stream.</p>
+                <div style="margin-top: 15px;"><span class="tag">Discord</span></div>
+            </div>
+        </div>
+
+        <div class="event-card">
+            <div class="date-box"><span>APR</span>20</div>
+            <div class="info">
+                <h3>SynthV Workshop</h3>
+                <p>Beginner session on tuning and music production.</p>
+                <div style="margin-top: 15px;"><span class="tag">Online</span></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>vocaloid.in Collective</footer>
+
+    <script>
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+        let cx = 0, cy = 0, fx = 0, fy = 0;
+        window.addEventListener('mousemove', e => {
+            cx = e.clientX; cy = e.clientY;
+            cursor.style.left = cx + 'px'; cursor.style.top = cy + 'px';
+        });
+        function animateFollower() {
+            fx += (cx - fx) * 0.12; fy += (cy - fy) * 0.12;
+            follower.style.left = fx + 'px'; follower.style.top = fy + 'px';
+            requestAnimationFrame(animateFollower);
+        }
+        animateFollower();
+    </script>
+</body>
+</html>
