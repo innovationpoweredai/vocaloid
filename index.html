@@ -38,6 +38,37 @@
             z-index: 10000; transition: transform 0.2s ease-out;
         }
 
+        /* --- NAVIGATION BAR --- */
+        nav {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(15px);
+            padding: 12px 40px;
+            border-radius: 100px;
+            border: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            gap: 40px;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: 1s ease 0.8s;
+        }
+        nav.show { opacity: 1; pointer-events: all; }
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-family: 'Space Grotesk';
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+        nav a:hover { color: var(--accent); }
+
         /* --- WELCOME WINDOW --- */
         #welcome-gate {
             position: fixed;
@@ -119,7 +150,6 @@
 
         .hero-title.show { transform: translateY(0); opacity: 1; }
 
-        /* --- BUTTONS --- */
         .btn-row { display: flex; gap: 15px; margin-top: 30px; opacity: 0; transform: translateY(20px); transition: 1s ease 0.8s; }
         .btn-row.show { opacity: 1; transform: translateY(0); }
         .btn { padding: 20px 45px; text-decoration: none; border-radius: 100px; font-weight: 700; font-size: 1rem; transition: 0.3s; }
@@ -171,6 +201,11 @@
     <div id="cursor"></div>
     <div id="cursor-follower"></div>
 
+    <nav id="navbar">
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+    </nav>
+
     <div id="welcome-gate">
         <div class="gate-content">
             <h1 class="welcome-text">WELCOME</h1>
@@ -199,32 +234,32 @@
                 <div class="feature-card scroll-reveal">
                     <i class="fa-solid fa-microphone-lines"></i>
                     <h3>1. Vocaloid & Synth Discussion</h3>
-                    <p>A space to talk about Vocaloid, Synthesizer V, voicebanks, music ideas, and learning resources, welcoming both beginners and experienced creators without pressure or judgment.</p>
+                    <p>A space to talk about Vocaloid, Synthesizer V, voicebanks, music ideas, and learning resources.</p>
                 </div>
                 <div class="feature-card scroll-reveal">
                     <i class="fa-solid fa-palette"></i>
                     <h3>2. Creative Sharing Space</h3>
-                    <p>Members can share music, art, edits, experiments, and unfinished ideas, receive feedback, and improve gradually in a supportive environment focused on growth, not competition.</p>
+                    <p>Members can share music, art, edits, experiments, and receive feedback.</p>
                 </div>
                 <div class="feature-card scroll-reveal">
                     <i class="fa-solid fa-headphones-simple"></i>
                     <h3>3. Listening Nights</h3>
-                    <p>Regular listening sessions where members share song recommendations, listen together through screen share, and enjoy music collectively in a relaxed, low-pressure atmosphere.</p>
+                    <p>Regular listening sessions where members share song recommendations.</p>
                 </div>
                 <div class="feature-card scroll-reveal">
                     <i class="fa-solid fa-clock"></i>
                     <h3>4. Study with Miku</h3>
-                    <p>Quiet study sessions with lofi music and pomodoro timers, allowing members to focus together, stay accountable, and study peacefully without needing to talk or interact actively.</p>
+                    <p>Quiet study sessions with lofi music and pomodoro timers.</p>
                 </div>
                 <div class="feature-card scroll-reveal">
                     <i class="fa-solid fa-heart"></i>
                     <h3>5. Calm Community Culture</h3>
-                    <p>The community values respect, patience, and consistency, creating a space where members feel comfortable participating at their own pace without spam, toxicity, or unnecessary noise.</p>
+                    <p>Values respect, patience, and consistency without unnecessary noise.</p>
                 </div>
                 <div class="feature-card scroll-reveal">
                     <i class="fa-solid fa-earth-asia"></i>
                     <h3>6. Indian-led, Global Open</h3>
-                    <p>Founded by Indian fans while welcoming people worldwide, the community connects scattered Vocaloid enthusiasts and creators, helping them feel less isolated and more connected.</p>
+                    <p>Founded by Indian fans while welcoming people worldwide.</p>
                 </div>
             </section>
         </div>
@@ -236,7 +271,6 @@
     </div>
 
     <script>
-        // CURSOR LOGIC
         const cursor = document.getElementById('cursor');
         const follower = document.getElementById('cursor-follower');
         let cx = 0, cy = 0, fx = 0, fy = 0;
@@ -256,10 +290,10 @@
         }
         animateFollower();
 
-        // GATE LOGIC
         function unlockGate() {
             const gate = document.getElementById('welcome-gate');
             const main = document.getElementById('main-site');
+            const nav = document.getElementById('navbar');
             const heroText = document.getElementById('hero-text');
             const heroBtns = document.getElementById('hero-btns');
             
@@ -270,10 +304,10 @@
             setTimeout(() => {
                 heroText.classList.add('show');
                 heroBtns.classList.add('show');
+                nav.classList.add('show');
             }, 600);
         }
 
-        // SCROLL REVEALS
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if(entry.isIntersecting) entry.target.classList.add('reveal');
@@ -282,8 +316,7 @@
 
         document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
 
-        // CURSOR INTERACTIONS
-        document.querySelectorAll('.enter-trigger, .feature-card, a, button').forEach(el => {
+        document.querySelectorAll('nav a, .enter-trigger, .feature-card, a, button').forEach(el => {
             el.addEventListener('mouseenter', () => {
                 follower.style.transform = 'translate(-50%, -50%) scale(2.5)';
                 follower.style.background = 'rgba(0, 242, 234, 0.1)';
