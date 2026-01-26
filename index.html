@@ -39,7 +39,7 @@
             z-index: 10000; transition: transform 0.2s ease-out;
         }
 
-        /* --- NEW: FLOATING TRIGGER ICON --- */
+        /* --- FLOATING TRIGGER ICON --- */
         .nav-trigger {
             position: fixed;
             bottom: 40px;
@@ -64,7 +64,7 @@
         .nav-trigger.active { transform: rotate(135deg); background: var(--accent); color: var(--dark); }
         .nav-trigger:hover { transform: scale(1.1); }
 
-        /* --- NEW: VERTICAL RECTANGULAR DRAWER --- */
+        /* --- VERTICAL RECTANGULAR DRAWER --- */
         #side-drawer {
             position: fixed;
             top: 0;
@@ -157,6 +157,13 @@
             opacity: 0.5;
         }
 
+        .gate-btn-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
         .enter-trigger {
             padding: 22px 70px;
             background: transparent;
@@ -174,6 +181,29 @@
             background: var(--accent);
             color: var(--dark);
             box-shadow: 0 0 30px var(--accent);
+        }
+
+        .tc-link {
+            text-decoration: none;
+            color: white;
+            font-family: 'Space Grotesk';
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.6;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 50px;
+        }
+        .tc-link:hover { opacity: 1; border-color: var(--accent); color: var(--accent); }
+
+        .gate-notice {
+            margin-top: 30px;
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 1px;
+            font-family: 'Space Grotesk';
         }
 
         /* --- MAIN SITE --- */
@@ -270,7 +300,13 @@
         <div class="gate-content">
             <h1 class="welcome-text">WELCOME</h1>
             <h2 class="gate-status">VOCALOID.IN COLLECTIVE</h2>
-            <button class="enter-trigger" onclick="unlockGate()">Enter Garden</button>
+            
+            <div class="gate-btn-group">
+                <button class="enter-trigger" onclick="unlockGate()">Enter Garden</button>
+                <a href="t&c.html" target="_blank" class="tc-link">T&C</a>
+            </div>
+
+            <p class="gate-notice">Entering means accepting terms and conditions.</p>
         </div>
     </div>
 
@@ -375,11 +411,10 @@
             setTimeout(() => {
                 heroText.classList.add('show');
                 heroBtns.classList.add('show');
-                navBtn.classList.add('show'); // Reveal the nav button
+                navBtn.classList.add('show'); 
             }, 600);
         }
 
-        // NEW: Toggle Navigation Drawer
         function toggleNav() {
             const drawer = document.getElementById('side-drawer');
             const btn = document.getElementById('nav-btn');
