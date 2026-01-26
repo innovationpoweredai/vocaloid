@@ -24,7 +24,7 @@
             background-color: var(--bg);
             color: var(--dark);
             font-family: 'Plus Jakarta Sans', sans-serif;
-            overflow: hidden; 
+            overflow-x: hidden; 
         }
 
         /* --- CUSTOM CURSOR --- */
@@ -41,24 +41,13 @@
 
         /* --- FLOATING TRIGGER ICON --- */
         .nav-trigger {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            width: 65px;
-            height: 65px;
-            background: var(--dark);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 6000;
-            color: white;
-            font-size: 1.2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: fixed; bottom: 40px; right: 40px;
+            width: 65px; height: 65px; background: var(--dark);
+            border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; z-index: 6000; color: white;
+            font-size: 1.2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             transition: 0.5s cubic-bezier(0.8, 0, 0.2, 1);
-            border: 2px solid transparent;
-            opacity: 0; 
-            transform: scale(0);
+            border: 2px solid transparent; opacity: 0; transform: scale(0);
         }
         .nav-trigger.show { opacity: 1; transform: scale(1); }
         .nav-trigger.active { transform: rotate(135deg); background: var(--accent); color: var(--dark); }
@@ -66,32 +55,19 @@
 
         /* --- VERTICAL RECTANGULAR DRAWER --- */
         #side-drawer {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: var(--drawer-width);
-            height: 100vh;
-            background: #fff;
-            z-index: 5000;
+            position: fixed; top: 0; right: 0; width: var(--drawer-width);
+            height: 100vh; background: #fff; z-index: 5000;
             box-shadow: -20px 0 60px rgba(0,0,0,0.03);
-            display: flex;
-            flex-direction: column;
-            padding: 100px 40px;
-            transform: translateX(100%);
-            transition: 0.6s cubic-bezier(0.8, 0, 0.2, 1);
+            display: flex; flex-direction: column; padding: 100px 40px;
+            transform: translateX(100%); transition: 0.6s cubic-bezier(0.8, 0, 0.2, 1);
             border-left: 1px solid #f0f0f0;
         }
         #side-drawer.open { transform: translateX(0); }
 
         .drawer-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(8px);
-            z-index: 4000;
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.5s;
+            position: fixed; inset: 0; background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px); z-index: 4000; opacity: 0;
+            pointer-events: none; transition: 0.5s;
         }
         .drawer-overlay.active { opacity: 1; pointer-events: all; }
 
@@ -106,130 +82,44 @@
         #side-drawer.open li:nth-child(1) { transition-delay: 0.3s; }
         #side-drawer.open li:nth-child(2) { transition-delay: 0.4s; }
         #side-drawer.open li:nth-child(3) { transition-delay: 0.5s; }
+        #side-drawer.open li:nth-child(4) { transition-delay: 0.6s; }
 
         .drawer-links a {
-            text-decoration: none;
-            color: var(--dark);
-            font-family: 'Space Grotesk';
-            font-weight: 700;
-            font-size: 2rem;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-            transition: 0.3s;
+            text-decoration: none; color: var(--dark);
+            font-family: 'Space Grotesk'; font-weight: 700;
+            font-size: 2rem; text-transform: uppercase;
+            letter-spacing: -1px; transition: 0.3s;
         }
         .drawer-links a:hover { color: var(--accent); }
 
         /* --- WELCOME WINDOW --- */
         #welcome-gate {
-            position: fixed;
-            inset: 0;
-            background: var(--dark);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1);
+            position: fixed; inset: 0; background: var(--dark);
+            z-index: 9999; display: flex; justify-content: center;
+            align-items: center; transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1);
         }
-
         .gate-content { text-align: center; color: white; }
-
         .welcome-text {
-            font-size: 6rem;
-            font-weight: 800;
-            letter-spacing: -4px;
-            margin-bottom: 10px;
-            background: linear-gradient(to bottom, #fff, #666);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 6rem; font-weight: 800; letter-spacing: -4px;
+            margin-bottom: 10px; background: linear-gradient(to bottom, #fff, #666);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: floatText 3s infinite ease-in-out;
         }
-
-        @keyframes floatText {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .gate-status {
-            font-family: 'Space Grotesk';
-            font-size: 0.9rem;
-            letter-spacing: 5px;
-            margin-bottom: 40px;
-            opacity: 0.5;
-        }
-
-        .gate-btn-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .enter-trigger {
-            padding: 22px 70px;
-            background: transparent;
-            color: white;
-            border: 2px solid var(--accent);
-            border-radius: 100px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            transition: all 0.4s;
-        }
-
-        .enter-trigger:hover {
-            background: var(--accent);
-            color: var(--dark);
-            box-shadow: 0 0 30px var(--accent);
-        }
-
-        .tc-link {
-            text-decoration: none;
-            color: white;
-            font-family: 'Space Grotesk';
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.6;
-            transition: 0.3s;
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 8px 20px;
-            border-radius: 50px;
-        }
+        @keyframes floatText { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        .gate-status { font-family: 'Space Grotesk'; font-size: 0.9rem; letter-spacing: 5px; margin-bottom: 40px; opacity: 0.5; }
+        .gate-btn-group { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .enter-trigger { padding: 22px 70px; background: transparent; color: white; border: 2px solid var(--accent); border-radius: 100px; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 4px; transition: all 0.4s; }
+        .enter-trigger:hover { background: var(--accent); color: var(--dark); box-shadow: 0 0 30px var(--accent); }
+        .tc-link { text-decoration: none; color: white; font-family: 'Space Grotesk'; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.6; transition: 0.3s; border: 1px solid rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 50px; }
         .tc-link:hover { opacity: 1; border-color: var(--accent); color: var(--accent); }
-
-        .gate-notice {
-            margin-top: 30px;
-            font-size: 0.65rem;
-            color: rgba(255,255,255,0.4);
-            letter-spacing: 1px;
-            font-family: 'Space Grotesk';
-        }
+        .gate-notice { margin-top: 30px; font-size: 0.65rem; color: rgba(255,255,255,0.4); letter-spacing: 1px; font-family: 'Space Grotesk'; }
 
         /* --- MAIN SITE --- */
         #main-site { opacity: 0; transition: opacity 1s ease 0.5s; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
-
-        header {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .hero-title {
-            font-size: clamp(4rem, 12vw, 8.5rem);
-            font-weight: 800;
-            letter-spacing: -6px;
-            line-height: 0.85;
-            margin-bottom: 20px;
-            transform: translateY(50px);
-            opacity: 0;
-            transition: 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-
+        header { height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+        .hero-title { font-size: clamp(4rem, 12vw, 8.5rem); font-weight: 800; letter-spacing: -6px; line-height: 0.85; margin-bottom: 20px; transform: translateY(50px); opacity: 0; transition: 1.2s cubic-bezier(0.19, 1, 0.22, 1); }
         .hero-title.show { transform: translateY(0); opacity: 1; }
-
         .btn-row { display: flex; gap: 15px; margin-top: 30px; opacity: 0; transform: translateY(20px); transition: 1s ease 0.8s; }
         .btn-row.show { opacity: 1; transform: translateY(0); }
         .btn { padding: 20px 45px; text-decoration: none; border-radius: 100px; font-weight: 700; font-size: 1rem; transition: 0.3s; }
@@ -238,37 +128,27 @@
         .btn:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
 
         /* --- GRID --- */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
-            padding: 100px 0;
-        }
-
-        .feature-card {
-            background: #ffffff;
-            padding: 60px 40px;
-            border-radius: var(--br);
-            transition: 0.6s cubic-bezier(0.2, 1, 0.3, 1);
-            opacity: 0;
-            transform: translateY(30px);
-            border: 1px solid #f0f0f0;
-        }
-
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; padding: 100px 0; }
+        .feature-card { background: #ffffff; padding: 60px 40px; border-radius: var(--br); transition: 0.6s cubic-bezier(0.2, 1, 0.3, 1); opacity: 0; transform: translateY(30px); border: 1px solid #f0f0f0; }
         .feature-card.reveal { opacity: 1; transform: translateY(0); }
         .feature-card:hover { background: var(--dark); color: white; border-color: var(--dark); }
         .feature-card i { font-size: 2.2rem; color: var(--accent); margin-bottom: 25px; display: block; }
         .feature-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
         .feature-card p { line-height: 1.6; opacity: 0.8; }
 
-        .image-frame {
-            border-radius: var(--br);
-            overflow: hidden;
-            margin: 60px 0;
-            height: 600px;
-            opacity: 0;
-            transition: 1.5s;
-        }
+        /* --- EMBEDDED COMMUNITY STYLES --- */
+        .community-hub { padding: 100px 0; background: #fafafa; }
+        .hub-wrapper { max-width: 800px; margin: 0 auto; }
+        .discord-widget-container { border-radius: var(--br); overflow: hidden; border: 1px solid #eee; box-shadow: 0 20px 40px rgba(0,0,0,0.03); margin-bottom: 20px; }
+        .join-chat-box { background: var(--dark); color: white; padding: 40px; border-radius: var(--br); text-decoration: none; display: flex; align-items: center; justify-content: space-between; transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1); border: 1px solid var(--dark); }
+        .join-chat-box:hover { background: var(--accent); color: var(--dark); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0, 242, 234, 0.2); }
+        .join-content { display: flex; align-items: center; gap: 25px; }
+        .join-content i { font-size: 3rem; }
+        .join-content h3 { font-family: 'Space Grotesk'; font-size: 1.8rem; letter-spacing: 1px; }
+        .join-chat-box .fa-arrow-right-long { font-size: 1.8rem; transition: 0.3s; }
+        .join-chat-box:hover .fa-arrow-right-long { transform: translateX(10px); }
+
+        .image-frame { border-radius: var(--br); overflow: hidden; margin: 60px 0; height: 600px; opacity: 0; transition: 1.5s; }
         .image-frame.reveal { opacity: 1; }
         .image-frame img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -291,6 +171,7 @@
         <p style="font-family: 'Space Grotesk'; letter-spacing: 5px; color: var(--gray); font-size: 0.75rem; text-transform: uppercase;">Menu</p>
         <ul class="drawer-links">
             <li><a href="index.html">Home</a></li>
+            <li><a href="#community">Community</a></li>
             <li><a href="events.html">Events</a></li>
             <li><a href="https://discord.gg/3jhAzkhpvz" target="_blank">Discord</a></li>
         </ul>
@@ -358,6 +239,29 @@
                     <p>Founded by Indian fans while welcoming people worldwide.</p>
                 </div>
             </section>
+
+            <section class="community-hub scroll-reveal" id="community">
+                <div class="hub-wrapper">
+                    <p style="font-family: 'Space Grotesk'; letter-spacing: 5px; color: var(--gray); margin-bottom: 25px; text-align: center;">THE COLLECTIVE FEED</p>
+                    
+                    <div class="discord-widget-container">
+                        <iframe src="https://discord.com/widget?id=1460662659337949217&theme=light" 
+                                width="100%" height="450" allowtransparency="true" frameborder="0" 
+                                sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+                    </div>
+
+                    <a href="https://discord.gg/3jhAzkhpvz" target="_blank" class="join-chat-box">
+                        <div class="join-content">
+                            <i class="fa-brands fa-discord"></i>
+                            <div>
+                                <h3>TO CHAT JOIN OUR DISCORD</h3>
+                                <p style="font-family: 'Space Grotesk'; opacity: 0.6; font-size: 0.8rem; letter-spacing: 1px; margin-top: 5px;">CLICK TO REDIRECT TO SERVER</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-arrow-right-long"></i>
+                    </a>
+                </div>
+            </section>
         </div>
 
         <footer>
@@ -406,7 +310,8 @@
             
             gate.style.transform = 'translateY(-100%)';
             main.style.opacity = '1';
-            document.body.style.overflow = 'auto';
+            document.body.style.overflowY = 'auto';
+            document.body.style.overflowX = 'hidden';
             
             setTimeout(() => {
                 heroText.classList.add('show');
@@ -433,7 +338,8 @@
 
         document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
 
-        document.querySelectorAll('a, .enter-trigger, .feature-card, .nav-trigger, button').forEach(el => {
+        // Interaction logic for cursor
+        document.querySelectorAll('a, .enter-trigger, .feature-card, .nav-trigger, button, .join-chat-box').forEach(el => {
             el.addEventListener('mouseenter', () => {
                 follower.style.transform = 'translate(-50%, -50%) scale(2.5)';
                 follower.style.background = 'rgba(0, 242, 234, 0.1)';
@@ -442,6 +348,11 @@
                 follower.style.transform = 'translate(-50%, -50%) scale(1)';
                 follower.style.background = 'transparent';
             });
+        });
+        
+        // Close nav on link click
+        document.querySelectorAll('.drawer-links a').forEach(link => {
+            link.addEventListener('click', () => toggleNav());
         });
     </script>
 </body>
