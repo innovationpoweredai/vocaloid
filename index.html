@@ -16,6 +16,7 @@
             --gray: #94a3b8;
             --br: 32px;
             --drawer-width: 320px;
+            --discord-blurple: #5865F2; /* Added for the widget header */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
@@ -136,23 +137,48 @@
         .feature-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
         .feature-card p { line-height: 1.6; opacity: 0.8; }
 
-        /* --- EMBEDDED COMMUNITY STYLES --- */
-        .community-hub { padding: 100px 0; background: #fafafa; }
-        .hub-wrapper { max-width: 800px; margin: 0 auto; }
-        .discord-widget-container { border-radius: var(--br); overflow: hidden; border: 1px solid #eee; box-shadow: 0 20px 40px rgba(0,0,0,0.03); margin-bottom: 20px; }
-        .join-chat-box { background: var(--dark); color: white; padding: 40px; border-radius: var(--br); text-decoration: none; display: flex; align-items: center; justify-content: space-between; transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1); border: 1px solid var(--dark); }
-        .join-chat-box:hover { background: var(--accent); color: var(--dark); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0, 242, 234, 0.2); }
-        .join-content { display: flex; align-items: center; gap: 25px; }
-        .join-content i { font-size: 3rem; }
-        .join-content h3 { font-family: 'Space Grotesk'; font-size: 1.8rem; letter-spacing: 1px; }
-        .join-chat-box .fa-arrow-right-long { font-size: 1.8rem; transition: 0.3s; }
-        .join-chat-box:hover .fa-arrow-right-long { transform: translateX(10px); }
+        /* --- REPLACED BENTO COMMUNITY SECTION --- */
+        .community-hub { padding: 100px 0; }
+        .bento-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+        
+        .left-col { display: flex; flex-direction: column; gap: 30px; }
+        .card-presence { background: #fff; padding: 40px; border-radius: var(--br); border: 1px solid #f0f0f0; }
+        .card-presence h4 { color: var(--accent); font-family: 'Space Grotesk'; margin-bottom: 15px; font-size: 1.1rem; text-transform: uppercase; }
+        .card-presence p { color: var(--gray); line-height: 1.6; font-size: 0.95rem; }
+
+        .card-widget { background: #fff; border-radius: var(--br); border: 1px solid #f0f0f0; overflow: hidden; display: flex; flex-direction: column; }
+        .widget-header { background: var(--discord-blurple); color: white; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; font-family: 'Space Grotesk'; font-weight: 700; font-size: 0.9rem; }
+        .widget-body { height: 350px; background: #fff; }
+        .widget-footer { padding: 15px 25px; border-top: 1px solid #f0f0f0; color: var(--gray); font-size: 0.8rem; font-family: 'Space Grotesk'; }
+
+        .card-synergy { background: var(--dark); color: white; border-radius: var(--br); padding: 60px; display: flex; flex-direction: column; justify-content: center; }
+        .card-synergy i.fa-discord { font-size: 4rem; color: var(--accent); margin-bottom: 30px; }
+        .card-synergy h2 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; font-weight: 800; letter-spacing: -2px; }
+        .card-synergy p { color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 40px; }
+        .synergy-list { list-style: none; }
+        .synergy-list li { margin-bottom: 15px; display: flex; align-items: center; gap: 15px; font-family: 'Space Grotesk'; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .synergy-list li i { color: var(--accent); }
+
+        .join-chat-box { background: var(--dark); color: white; padding: 50px 60px; border-radius: var(--br); text-decoration: none; display: flex; align-items: center; justify-content: space-between; transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1); border: 1px solid var(--dark); }
+        .join-chat-box:hover { background: var(--accent); color: var(--dark); transform: translateY(-5px); border-color: var(--accent); }
+        .join-content h3 { font-size: 2.5rem; font-weight: 800; text-transform: uppercase; }
+        .join-content p { font-family: 'Space Grotesk'; opacity: 0.6; letter-spacing: 2px; font-size: 0.8rem; margin-top: 5px; }
+        .join-chat-box .fa-arrow-right { font-size: 2.5rem; transition: 0.3s; }
+        .join-chat-box:hover .fa-arrow-right { transform: translateX(10px); }
 
         .image-frame { border-radius: var(--br); overflow: hidden; margin: 60px 0; height: 600px; opacity: 0; transition: 1.5s; }
         .image-frame.reveal { opacity: 1; }
         .image-frame img { width: 100%; height: 100%; object-fit: cover; }
 
+        .scroll-reveal { opacity: 0; transform: translateY(40px); transition: 1s cubic-bezier(0.2, 1, 0.3, 1); }
+        .scroll-reveal.reveal { opacity: 1; transform: translateY(0); }
+
         footer { padding: 80px 0; text-align: center; border-top: 1px solid #eee; }
+
+        @media (max-width: 992px) {
+            .bento-grid { grid-template-columns: 1fr; }
+            .join-chat-box { flex-direction: column; text-align: center; gap: 20px; }
+        }
 
     </style>
 </head>
@@ -240,32 +266,45 @@
                 </div>
             </section>
 
-            <section class="community-hub scroll-reveal" id="community">
-    <div class="hub-wrapper">
-        <p style="font-family: 'Space Grotesk'; letter-spacing: 5px; color: var(--gray); margin-bottom: 25px; text-align: center;">THE COLLECTIVE FEED</p>
-        
-        <div class="discord-widget-container">
-            <iframe src="https://discord.com/widget?id=1460662659337949217&theme=light" 
-                    width="100%" 
-                    height="500" 
-                    allowtransparency="true" 
-                    frameborder="0" 
-                    sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
-            </iframe>
-        </div>
+            <section class="community-hub" id="community">
+                <div class="bento-grid">
+                    <div class="left-col scroll-reveal">
+                        <div class="card-presence">
+                            <h4>01. Live Presence</h4>
+                            <p>Our Discord server serves as the primary heartbeat of Vocaloid.in. See who is online and active in the community right now.</p>
+                        </div>
+                        <div class="card-widget">
+                            <div class="widget-header">
+                                <span><i class="fa-brands fa-discord"></i> Discord</span>
+                                <span style="opacity: 0.7;">Online</span>
+                            </div>
+                            <div class="widget-body">
+                                <iframe src="https://discord.com/widget?id=1460662659337949217&theme=light" width="100%" height="100%" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+                            </div>
+                            <div class="widget-footer">Hangout with people who get it</div>
+                        </div>
+                    </div>
 
-        <a href="https://discord.gg/3jhAzkhpvz" target="_blank" class="join-chat-box">
-            <div class="join-content">
-                <i class="fa-brands fa-discord"></i>
-                <div>
-                    <h3>TO CHAT JOIN OUR DISCORD</h3>
-                    <p style="font-family: 'Space Grotesk'; opacity: 0.6; font-size: 0.8rem; letter-spacing: 1px; margin-top: 5px;">CLICK TO REDIRECT TO SERVER</p>
+                    <div class="card-synergy scroll-reveal">
+                        <i class="fa-brands fa-discord"></i>
+                        <h2>Real-time Synergy.</h2>
+                        <p>Join 500+ members in sharing music, art, and synth presets. The collective is open to all producers and fans.</p>
+                        <ul class="synergy-list">
+                            <li><i class="fa-solid fa-check"></i> Daily Listening Sessions</li>
+                            <li><i class="fa-solid fa-check"></i> Producer Feedback Channels</li>
+                            <li><i class="fa-solid fa-check"></i> Exclusive Vocaloid News</li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <i class="fa-solid fa-arrow-right-long"></i>
-        </a>
-    </div>
-</section>
+
+                <a href="https://discord.gg/3jhAzkhpvz" target="_blank" class="join-chat-box scroll-reveal">
+                    <div class="join-content">
+                        <h3>To Chat Join Our Discord</h3>
+                        <p>CLICK TO REDIRECT TO SERVER</p>
+                    </div>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </section>
         </div>
 
         <footer>
