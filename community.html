@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community | vocaloid.in</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg: #ffffff;
+            --accent: #00f2ea;
+            --dark: #0a0a0a;
+            --gray: #94a3b8;
+            --br: 32px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        body { background-color: var(--bg); color: var(--dark); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+
+        /* --- CUSTOM CURSOR --- */
+        #cursor { width: 10px; height: 10px; background: var(--dark); position: fixed; border-radius: 50%; pointer-events: none; z-index: 10001; mix-blend-mode: difference; }
+        #cursor-follower { width: 40px; height: 40px; border: 1px solid var(--dark); position: fixed; border-radius: 50%; pointer-events: none; z-index: 10000; transition: transform 0.2s ease-out; }
+
+        /* --- HORIZONTAL NAVIGATION BAR --- */
+        .top-nav {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 25px 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);
+            z-index: 2000; border-bottom: 1px solid #f0f0f0;
+        }
+        .nav-logo { font-weight: 800; font-size: 1.2rem; text-decoration: none; color: var(--dark); letter-spacing: -1px; }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { 
+            text-decoration: none; color: var(--dark); font-family: 'Space Grotesk'; 
+            font-weight: 700; font-size: 0.8rem; text-transform: uppercase; 
+            letter-spacing: 2px; transition: 0.3s; 
+        }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* --- LAYOUT --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 140px 40px 80px; }
+        
+        .page-header { margin-bottom: 60px; }
+        .page-header h1 { font-size: 4rem; font-weight: 800; letter-spacing: -3px; margin-bottom: 10px; }
+        .page-header p { font-family: 'Space Grotesk'; color: var(--gray); letter-spacing: 3px; text-transform: uppercase; font-size: 0.9rem; }
+
+        .bento-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 30px; }
+
+        /* --- CARD STYLE --- */
+        .card { background: #fff; border-radius: var(--br); border: 1px solid #f0f0f0; padding: 40px; }
+        .card-title { font-family: 'Space Grotesk'; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; display: flex; align-items: center; gap: 15px; }
+        .card-title i { color: var(--accent); }
+
+        /* --- INFO CARD --- */
+        .info-card { background: var(--dark); color: white; border-radius: var(--br); padding: 40px; }
+        .info-card h3 { font-size: 2rem; margin-bottom: 20px; }
+        .info-card p { opacity: 0.6; line-height: 1.6; margin-bottom: 30px; }
+
+        .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .stat-box { border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: 20px; }
+        .stat-box span { display: block; font-family: 'Space Grotesk'; color: var(--accent); font-weight: 700; font-size: 1.5rem; }
+        .stat-box label { font-size: 0.7rem; text-transform: uppercase; opacity: 0.5; letter-spacing: 1px; }
+
+        .scroll-reveal { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.2, 1, 0.3, 1); }
+        .scroll-reveal.reveal { opacity: 1; transform: translateY(0); }
+
+        footer { padding: 60px 0; text-align: center; border-top: 1px solid #eee; margin-top: 100px; }
+
+        @media (max-width: 992px) {
+            .bento-grid { grid-template-columns: 1fr; }
+            .top-nav { padding: 20px; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+
+    <nav class="top-nav">
+        <a href="index.html" class="nav-logo">vocaloid.in</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Main</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="community.html" style="color: var(--accent);">Community</a></li>
+            <li><a href="https://discord.gg/3jhAzkhpvz" target="_blank">Discord</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <header class="page-header scroll-reveal">
+            <p>Collective Hub</p>
+            <h1>Community Feed.</h1>
+        </header>
+
+        <div class="bento-grid">
+            <div class="card scroll-reveal">
+                <div class="card-title">
+                    <i class="fa-solid fa-comments"></i>
+                    <span>Reviews & Discussions</span>
+                </div>
+                
+                <div id="cusdis_thread"
+                  data-host="https://cusdis.com"
+                  data-app-id="c086c3cc-2342-4e6e-bbb7-a531c39de5aa"
+                  data-page-id="community_vocaloid_in"
+                  data-page-url="community.html"
+                  data-page-title="Vocaloid.in Community">
+                </div>
+                <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+                
+                <p style="margin-top: 30px; font-size: 0.8rem; color: var(--gray); text-align: center; font-family: 'Space Grotesk';">
+                    REVIEWS POWERED BY CUSDIS
+                </p>
+            </div>
+
+            <div class="right-col">
+                <div class="info-card scroll-reveal">
+                    <h3>Real-time Pulse.</h3>
+                    <p>Our community thrives on shared creativity. Leave a review of your experience or chat with active members.</p>
+                    
+                    <div class="stat-row">
+                        <div class="stat-box">
+                            <span>500+</span>
+                            <label>Members</label>
+                        </div>
+                        <div class="stat-box">
+                            <span>24/7</span>
+                            <label>Live Hub</label>
+                        </div>
+                    </div>
+
+                    <a href="https://discord.gg/3jhAzkhpvz" target="_blank" style="display: block; margin-top: 40px; color: var(--accent); text-decoration: none; font-family: 'Space Grotesk'; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;">
+                        Open Discord Server <i class="fa-solid fa-arrow-right" style="margin-left: 10px;"></i>
+                    </a>
+                </div>
+
+                <div class="card scroll-reveal" style="margin-top: 30px;">
+                    <div class="card-title">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>House Rules</span>
+                    </div>
+                    <ul style="list-style: none; font-size: 0.85rem; color: var(--gray); line-height: 2;">
+                        <li>• No Spamming or self-promotion</li>
+                        <li>• Respect all vocaloid producers</li>
+                        <li>• Keep the conversation constructive</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p style="font-family: 'Space Grotesk'; font-size: 0.8rem; color: var(--gray);">© 2026 VOCALOID.IN // PRISM GATE</p>
+    </footer>
+
+    <script>
+        // CURSOR LOGIC (MATCHING INDEX.HTML)
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+        let cx = 0, cy = 0, fx = 0, fy = 0;
+
+        window.addEventListener('mousemove', e => {
+            cx = e.clientX; cy = e.clientY;
+            cursor.style.left = cx + 'px';
+            cursor.style.top = cy + 'px';
+        });
+
+        function animateFollower() {
+            fx += (cx - fx) * 0.12;
+            fy += (cy - fy) * 0.12;
+            follower.style.left = fx + 'px';
+            follower.style.top = fy + 'px';
+            requestAnimationFrame(animateFollower);
+        }
+        animateFollower();
+
+        // SCROLL REVEAL LOGIC
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) entry.target.classList.add('reveal');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+        // CURSOR HOVER EFFECTS
+        document.querySelectorAll('a, button, .card').forEach(el => {
+            el.addEventListener('mouseenter', () => follower.style.transform = 'translate(-50%, -50%) scale(2.5)');
+            el.addEventListener('mouseleave', () => follower.style.transform = 'translate(-50%, -50%) scale(1)');
+        });
+    </script>
+</body>
+</html>
