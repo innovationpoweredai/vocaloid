@@ -125,7 +125,7 @@
                     
                     <div class="stat-row">
                         <div class="stat-box">
-                            <span>50+</span>
+                            <span>500+</span>
                             <label>Members</label>
                         </div>
                         <div class="stat-box">
@@ -139,17 +139,45 @@
                     </a>
                 </div>
 
-                <div class="card scroll-reveal" style="margin-top: 30px;">
-                    <div class="card-title">
-                        <i class="fa-solid fa-shield-halved"></i>
-                        <span>House Rules</span>
-                    </div>
-                    <ul style="list-style: none; font-size: 0.85rem; color: var(--gray); line-height: 2;">
-                        <li>• No Spamming or self-promotion</li>
-                        <li>• Respect all vocaloid producers</li>
-                        <li>• Keep the conversation constructive</li>
-                    </ul>
-                </div>
+                <div class="card scroll-reveal" style="display: flex; flex-direction: column; height: 100%; min-height: 800px;">
+    <div class="card-title">
+        <i class="fa-solid fa-comments"></i>
+        <span>Reviews & Discussions</span>
+    </div>
+    
+    <div class="cusdis-container" style="flex-grow: 1; overflow-y: auto; padding-right: 10px;">
+        <div id="cusdis_thread"
+          data-host="https://cusdis.com"
+          data-app-id="c086c3cc-2342-4e6e-bbb7-a531c39de5aa"
+          data-page-id="community_vocaloid_in"
+          data-page-url="community.html"
+          data-page-title="Vocaloid.in Community">
+        </div>
+    </div>
+    
+    <p style="margin-top: 30px; font-size: 0.8rem; color: var(--gray); text-align: center; font-family: 'Space Grotesk'; border-top: 1px solid #f0f0f0; padding-top: 20px;">
+        REVIEWS POWERED BY CUSDIS
+    </p>
+</div>
+
+<script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+
+<style>
+    #cusdis_thread iframe {
+        width: 100% !important;
+        height: 700px !important; /* Forces vertical elongation */
+        border: none;
+    }
+    
+    /* Custom Scrollbar for the elongated widget area */
+    .cusdis-container::-webkit-scrollbar {
+        width: 4px;
+    }
+    .cusdis-container::-webkit-scrollbar-thumb {
+        background: var(--accent);
+        border-radius: 10px;
+    }
+</style>
             </div>
         </div>
     </div>
