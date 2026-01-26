@@ -15,6 +15,7 @@
             --dark: #0a0a0a;
             --gray: #94a3b8;
             --br: 32px;
+            --drawer-width: 320px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
@@ -38,36 +39,85 @@
             z-index: 10000; transition: transform 0.2s ease-out;
         }
 
-        /* --- NAVIGATION BAR --- */
-        nav {
+        /* --- NEW: FLOATING TRIGGER ICON --- */
+        .nav-trigger {
             position: fixed;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(15px);
-            padding: 12px 40px;
-            border-radius: 100px;
-            border: 1px solid rgba(0,0,0,0.05);
+            bottom: 40px;
+            right: 40px;
+            width: 65px;
+            height: 65px;
+            background: var(--dark);
+            border-radius: 50%;
             display: flex;
-            gap: 40px;
-            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            z-index: 6000;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: 0.5s cubic-bezier(0.8, 0, 0.2, 1);
+            border: 2px solid transparent;
+            opacity: 0; 
+            transform: scale(0);
+        }
+        .nav-trigger.show { opacity: 1; transform: scale(1); }
+        .nav-trigger.active { transform: rotate(135deg); background: var(--accent); color: var(--dark); }
+        .nav-trigger:hover { transform: scale(1.1); }
+
+        /* --- NEW: VERTICAL RECTANGULAR DRAWER --- */
+        #side-drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: var(--drawer-width);
+            height: 100vh;
+            background: #fff;
+            z-index: 5000;
+            box-shadow: -20px 0 60px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            padding: 100px 40px;
+            transform: translateX(100%);
+            transition: 0.6s cubic-bezier(0.8, 0, 0.2, 1);
+            border-left: 1px solid #f0f0f0;
+        }
+        #side-drawer.open { transform: translateX(0); }
+
+        .drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 4000;
             opacity: 0;
             pointer-events: none;
-            transition: 1s ease 0.8s;
+            transition: 0.5s;
         }
-        nav.show { opacity: 1; pointer-events: all; }
-        nav a {
+        .drawer-overlay.active { opacity: 1; pointer-events: all; }
+
+        .drawer-links { list-style: none; margin-top: 40px; }
+        .drawer-links li { 
+            margin-bottom: 25px; 
+            opacity: 0; 
+            transform: translateX(20px); 
+            transition: 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        #side-drawer.open .drawer-links li { opacity: 1; transform: translateX(0); }
+        #side-drawer.open li:nth-child(1) { transition-delay: 0.3s; }
+        #side-drawer.open li:nth-child(2) { transition-delay: 0.4s; }
+        #side-drawer.open li:nth-child(3) { transition-delay: 0.5s; }
+
+        .drawer-links a {
             text-decoration: none;
             color: var(--dark);
             font-family: 'Space Grotesk';
             font-weight: 700;
+            font-size: 2rem;
             text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 2px;
+            letter-spacing: -1px;
             transition: 0.3s;
         }
-        nav a:hover { color: var(--accent); }
+        .drawer-links a:hover { color: var(--accent); }
 
         /* --- WELCOME WINDOW --- */
         #welcome-gate {
@@ -201,10 +251,20 @@
     <div id="cursor"></div>
     <div id="cursor-follower"></div>
 
-    <nav id="navbar">
-        <a href="index.html">Home</a>
-        <a href="events.html">Events</a>
-    </nav>
+    <div class="drawer-overlay" id="overlay" onclick="toggleNav()"></div>
+    
+    <div class="nav-trigger" id="nav-btn" onclick="toggleNav()">
+        <i class="fa-solid fa-plus"></i>
+    </div>
+
+    <aside id="side-drawer">
+        <p style="font-family: 'Space Grotesk'; letter-spacing: 5px; color: var(--gray); font-size: 0.75rem; text-transform: uppercase;">Menu</p>
+        <ul class="drawer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="https://discord.gg/3jhAzkhpvz" target="_blank">Discord</a></li>
+        </ul>
+    </aside>
 
     <div id="welcome-gate">
         <div class="gate-content">
@@ -265,8 +325,19 @@
         </div>
 
         <footer>
-            <h2 style="font-weight: 800;">vocaloid.in</h2>
-            <p style="color: var(--gray); margin-top: 10px;">The Indian Synthesizer Hub.</p>
+            <div class="container">
+                <h2 style="font-weight: 800; margin-bottom: 10px;">vocaloid.in</h2>
+                <p style="color: var(--gray); margin-bottom: 25px;">The Indian Synthesizer Hub.</p>
+                
+                <div style="border-top: 1px solid #f0f0f0; padding-top: 30px; margin-top: 20px;">
+                    <p style="font-size: 0.85rem; color: var(--gray); font-family: 'Space Grotesk'; letter-spacing: 1px;">
+                        &copy; 2026 VOCALOID.IN. ALL RIGHTS RESERVED.
+                    </p>
+                    <p style="font-size: 0.75rem; color: #b1b1b1; margin-top: 8px;">
+                        All trademarks, characters, and content belong to their respective owners.
+                    </p>
+                </div>
+            </div>
         </footer>
     </div>
 
@@ -293,7 +364,7 @@
         function unlockGate() {
             const gate = document.getElementById('welcome-gate');
             const main = document.getElementById('main-site');
-            const nav = document.getElementById('navbar');
+            const navBtn = document.getElementById('nav-btn');
             const heroText = document.getElementById('hero-text');
             const heroBtns = document.getElementById('hero-btns');
             
@@ -304,8 +375,19 @@
             setTimeout(() => {
                 heroText.classList.add('show');
                 heroBtns.classList.add('show');
-                nav.classList.add('show');
+                navBtn.classList.add('show'); // Reveal the nav button
             }, 600);
+        }
+
+        // NEW: Toggle Navigation Drawer
+        function toggleNav() {
+            const drawer = document.getElementById('side-drawer');
+            const btn = document.getElementById('nav-btn');
+            const overlay = document.getElementById('overlay');
+            
+            drawer.classList.toggle('open');
+            btn.classList.toggle('active');
+            overlay.classList.toggle('active');
         }
 
         const observer = new IntersectionObserver(entries => {
@@ -316,7 +398,7 @@
 
         document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
 
-        document.querySelectorAll('nav a, .enter-trigger, .feature-card, a, button').forEach(el => {
+        document.querySelectorAll('a, .enter-trigger, .feature-card, .nav-trigger, button').forEach(el => {
             el.addEventListener('mouseenter', () => {
                 follower.style.transform = 'translate(-50%, -50%) scale(2.5)';
                 follower.style.background = 'rgba(0, 242, 234, 0.1)';
