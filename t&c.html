@@ -1,1 +1,255 @@
-hi
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions | Vocaloid.in</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg: #ffffff;
+            --accent: #00f2ea;
+            --dark: #0a0a0a;
+            --gray: #94a3b8;
+            --br: 32px;
+            --drawer-width: 320px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--dark);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        #cursor {
+            width: 10px; height: 10px; background: var(--dark);
+            position: fixed; border-radius: 50%; pointer-events: none;
+            z-index: 10001; mix-blend-mode: difference; transition: transform 0.1s;
+        }
+        #cursor-follower {
+            width: 40px; height: 40px; border: 1px solid var(--dark);
+            position: fixed; border-radius: 50%; pointer-events: none;
+            z-index: 10000; transition: transform 0.2s ease-out;
+        }
+
+        /* --- NAVIGATION --- */
+        .nav-trigger {
+            position: fixed; bottom: 40px; right: 40px;
+            width: 65px; height: 65px; background: var(--dark);
+            border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; z-index: 6000; color: white;
+            font-size: 1.2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: 0.5s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+        .nav-trigger.active { transform: rotate(135deg); background: var(--accent); color: var(--dark); }
+
+        #side-drawer {
+            position: fixed; top: 0; right: 0; width: var(--drawer-width);
+            height: 100vh; background: #fff; z-index: 5000;
+            box-shadow: -20px 0 60px rgba(0,0,0,0.03);
+            display: flex; flex-direction: column; padding: 100px 40px;
+            transform: translateX(100%); transition: 0.6s cubic-bezier(0.8, 0, 0.2, 1);
+            border-left: 1px solid #f0f0f0;
+        }
+        #side-drawer.open { transform: translateX(0); }
+
+        .drawer-overlay {
+            position: fixed; inset: 0; background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px); z-index: 4000; opacity: 0;
+            pointer-events: none; transition: 0.5s;
+        }
+        .drawer-overlay.active { opacity: 1; pointer-events: all; }
+
+        .drawer-links { list-style: none; margin-top: 40px; }
+        .drawer-links li { margin-bottom: 25px; }
+        .drawer-links a {
+            text-decoration: none; color: var(--dark);
+            font-family: 'Space Grotesk'; font-weight: 700;
+            font-size: 2rem; text-transform: uppercase;
+            letter-spacing: -1px; transition: 0.3s;
+        }
+        .drawer-links a:hover { color: var(--accent); }
+
+        /* --- CONTENT SECTION --- */
+        .legal-header {
+            padding: 120px 0 60px 0;
+            background: #fafafa;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 40px; }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800; letter-spacing: -3px;
+            line-height: 0.9; margin-bottom: 20px;
+        }
+
+        .content-body { padding: 80px 0; }
+        
+        .terms-block {
+            margin-bottom: 60px;
+            opacity: 0; transform: translateY(30px);
+            transition: 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .terms-block.reveal { opacity: 1; transform: translateY(0); }
+
+        .terms-block h3 {
+            font-family: 'Space Grotesk';
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .terms-block h3::before {
+            content: ""; width: 20px; height: 1px; background: var(--accent);
+        }
+
+        .terms-block p {
+            font-size: 1.15rem;
+            color: #444;
+            max-width: 750px;
+        }
+
+        /* --- FOOTER --- */
+        footer { padding: 80px 0; border-top: 1px solid #eee; text-align: center; }
+
+    </style>
+</head>
+<body>
+
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+
+    <div class="drawer-overlay" id="overlay" onclick="toggleNav()"></div>
+    
+    <div class="nav-trigger" id="nav-btn" onclick="toggleNav()">
+        <i class="fa-solid fa-plus"></i>
+    </div>
+
+    <aside id="side-drawer">
+        <p style="font-family: 'Space Grotesk'; letter-spacing: 5px; color: var(--gray); font-size: 0.75rem; text-transform: uppercase;">Navigation</p>
+        <ul class="drawer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="https://discord.gg/3jhAzkhpvz" target="_blank">Discord</a></li>
+        </ul>
+    </aside>
+
+    <section class="legal-header">
+        <div class="container">
+            <p style="font-family: 'Space Grotesk'; letter-spacing: 4px; color: var(--gray); margin-bottom: 15px;">LEGAL DOCUMENT</p>
+            <h1 class="hero-title">Terms &<br>Conditions</h1>
+        </div>
+    </section>
+
+    <main class="content-body">
+        <div class="container">
+            
+            <div class="terms-block scroll-reveal">
+                <h3>Agreement</h3>
+                <p>Welcome to Vocaloid.in. By accessing or using this website, you agree to the following terms and conditions. These terms govern your interaction with our digital space.</p>
+            </div>
+
+            <div class="terms-block scroll-reveal">
+                <h3>Purpose</h3>
+                <p>This website is operated as an informational and community hub for Vocaloid and synth vocal enthusiasts. The content provided here is for general information and community purposes only.</p>
+            </div>
+
+            <div class="terms-block scroll-reveal">
+                <h3>Ownership & Copyright</h3>
+                <p>All media, text, images, and materials shared on this website are either owned by the community, submitted by members with permission, or linked from official external sources. We do not host, distribute, or claim ownership over copyrighted music or third-party content.</p>
+            </div>
+
+            <div class="terms-block scroll-reveal">
+                <h3>Participation</h3>
+                <p>Participation in community activities linked through this website (such as Discord, Reddit, or other platforms) is voluntary. Users are expected to engage respectfully and follow the rules of each respective platform.</p>
+            </div>
+
+            <div class="terms-block scroll-reveal">
+                <h3>Modifications</h3>
+                <p>We reserve the right to update, modify, or remove content on this website at any time without prior notice. Continued use of the website after changes are made constitutes acceptance of the updated terms.</p>
+            </div>
+
+            <div class="terms-block scroll-reveal">
+                <h3>Contact</h3>
+                <p>If you do not agree with these terms, please refrain from using the website. For questions or concerns regarding these terms, you may contact the community through the provided links.</p>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <h2 style="font-weight: 800; margin-bottom: 10px;">vocaloid.in</h2>
+            <p style="color: var(--gray); margin-bottom: 25px;">The Indian Synthesizer Hub.</p>
+            
+            <div style="border-top: 1px solid #f0f0f0; padding-top: 30px; margin-top: 20px;">
+                <p style="font-size: 0.85rem; color: var(--gray); font-family: 'Space Grotesk'; letter-spacing: 1px;">
+                    &copy; 2026 VOCALOID.IN. ALL RIGHTS RESERVED.
+                </p>
+                <p style="font-size: 0.75rem; color: #b1b1b1; margin-top: 8px;">
+                    All trademarks, characters, and content belong to their respective owners.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+        let cx = 0, cy = 0, fx = 0, fy = 0;
+
+        window.addEventListener('mousemove', e => {
+            cx = e.clientX; cy = e.clientY;
+            cursor.style.left = cx + 'px';
+            cursor.style.top = cy + 'px';
+        });
+
+        function animateFollower() {
+            fx += (cx - fx) * 0.12;
+            fy += (cy - fy) * 0.12;
+            follower.style.left = fx + 'px';
+            follower.style.top = fy + 'px';
+            requestAnimationFrame(animateFollower);
+        }
+        animateFollower();
+
+        function toggleNav() {
+            document.getElementById('side-drawer').classList.toggle('open');
+            document.getElementById('nav-btn').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) entry.target.classList.add('reveal');
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+        document.querySelectorAll('a, .nav-trigger, button').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                follower.style.transform = 'translate(-50%, -50%) scale(2.5)';
+                follower.style.background = 'rgba(0, 242, 234, 0.1)';
+            });
+            el.addEventListener('mouseleave', () => {
+                follower.style.transform = 'translate(-50%, -50%) scale(1)';
+                follower.style.background = 'transparent';
+            });
+        });
+    </script>
+</body>
+</html>
