@@ -24,6 +24,7 @@
             color: var(--dark); 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             line-height: 1.6;
+            overflow-x: hidden;
         }
         
         /* --- CURSOR --- */
@@ -36,13 +37,20 @@
             background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(15px);
             padding: 12px 40px; border-radius: 100px; border: 1px solid rgba(0,0,0,0.05);
             display: flex; gap: 40px; z-index: 2000;
+            white-space: nowrap;
         }
-        nav a { text-decoration: none; color: var(--dark); font-family: 'Space Grotesk'; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 2px; }
+        nav a { text-decoration: none; color: var(--dark); font-family: 'Space Grotesk'; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 2px; transition: 0.3s; }
         nav a:hover { color: var(--accent); }
 
-        /* --- CONTENT --- */
-        .container { max-width: 1100px; margin: 0 auto; padding: 150px 40px; }
+        /* --- LAYOUT GRID --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 150px 40px; }
         
+        .events-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 40px;
+        }
+
         .header-meta { font-family: 'Space Grotesk'; color: var(--accent); letter-spacing: 5px; margin-bottom: 15px; text-transform: uppercase; }
         h1 { font-size: clamp(3rem, 8vw, 4.5rem); font-weight: 800; letter-spacing: -3px; margin-bottom: 60px; }
 
@@ -56,7 +64,11 @@
             display: grid;
             grid-template-columns: 300px 1fr;
             overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
         }
+
+        .event-card.reveal { opacity: 1; transform: translateY(0); }
 
         .event-card:hover { 
             border-color: var(--dark); 
@@ -64,89 +76,65 @@
             box-shadow: 0 30px 60px rgba(0,0,0,0.05);
         }
 
-        .event-image {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: #f5f5f5;
-        }
-
-        .event-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: 0.5s;
-        }
-
+        .event-image { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; }
+        .event-image img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .event-card:hover .event-image img { transform: scale(1.1); }
 
-        .event-content {
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .event-meta {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .date-badge {
-            font-family: 'Space Grotesk';
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: var(--dark);
-            background: var(--accent);
-            padding: 5px 15px;
-            border-radius: 50px;
-        }
+        .event-content { padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+        .event-meta { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .date-badge { font-family: 'Space Grotesk'; font-weight: 700; font-size: 0.9rem; color: var(--dark); background: var(--accent); padding: 5px 15px; border-radius: 50px; }
 
         .event-content h3 { font-size: 1.8rem; margin-bottom: 15px; letter-spacing: -0.5px; }
         .event-content p { color: #666; margin-bottom: 25px; font-size: 1rem; }
 
+        /* --- SIDEBAR CALENDAR --- */
+        .sidebar-card {
+            background: var(--dark);
+            border-radius: var(--br);
+            padding: 35px;
+            color: white;
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+            opacity: 0;
+            transform: translateX(30px);
+            transition: 1s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        
+        .sidebar-card.reveal { opacity: 1; transform: translateX(0); }
+
+        .sidebar-card h2 { font-family: 'Space Grotesk'; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; color: var(--accent); }
+
+        .calendar-list { list-style: none; }
+        .calendar-item {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .calendar-item:last-child { border: none; }
+        .cal-day { font-family: 'Space Grotesk'; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; color: var(--accent); opacity: 0.8; }
+        .cal-task { font-weight: 700; font-size: 0.95rem; }
+        .cal-time { font-size: 0.75rem; opacity: 0.5; font-family: 'Space Grotesk'; }
+
         /* --- BUTTONS --- */
         .btn-group { display: flex; align-items: center; gap: 12px; }
-
-        .event-btn {
-            padding: 14px 30px;
-            background: var(--dark);
-            color: white;
-            text-decoration: none;
-            border-radius: 100px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.3s;
-        }
-
+        .event-btn { padding: 14px 30px; background: var(--dark); color: white; text-decoration: none; border-radius: 100px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
         .event-btn:hover { background: var(--accent); color: var(--dark); }
-
-        .remind-btn {
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #eee;
-            border-radius: 50%;
-            color: var(--dark);
-            text-decoration: none;
-            transition: 0.3s;
-            font-size: 1.1rem;
-        }
-
+        .remind-btn { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border: 1px solid #eee; border-radius: 50%; color: var(--dark); text-decoration: none; transition: 0.3s; font-size: 1.1rem; }
         .remind-btn:hover { border-color: var(--accent); color: var(--accent); background: #f0ffff; }
 
         footer { padding: 80px 0; text-align: center; border-top: 1px solid #eee; margin-top: 100px; opacity: 0.6; }
 
-        /* Responsive */
+        @media (max-width: 1100px) {
+            .events-grid { grid-template-columns: 1fr; }
+            .sidebar-card { position: static; margin-top: 40px; }
+        }
         @media (max-width: 850px) {
             .event-card { grid-template-columns: 1fr; }
             .event-image { height: 250px; }
+            nav { padding: 10px 20px; gap: 20px; width: 90%; justify-content: center; }
         }
     </style>
 </head>
@@ -157,50 +145,79 @@
     <nav>
         <a href="index.html">Home</a>
         <a href="events.html" style="color: var(--accent);">Events</a>
+        <a href="highlights.html">Highlights</a>
     </nav>
 
     <div class="container">
         <p class="header-meta">Community Hub</p>
         <h1>Upcoming Events</h1>
 
-        <div class="event-card">
-            <div class="event-image">
-                <img src="https://iili.io/fPZO8Je.png" alt="Listening Night">
-            </div>
-            <div class="event-content">
-                <div class="event-meta">
-                    <span class="date-badge">JAN 26, 2026</span>
+        <div class="events-grid">
+            <div class="main-events">
+                <div class="event-card reveal">
+                    <div class="event-image">
+                        <img src="https://iili.io/fPZO8Je.png" alt="Listening Night">
+                    </div>
+                    <div class="event-content">
+                        <div class="event-meta">
+                            <span class="date-badge">JAN 26, 2026</span>
+                        </div>
+                        <h3> Monday Music Night – Week 2  [ENDED] </h3>
+                        <p>📅 26 January 2026 (Monday)<br>⏰ 8:00 PM – 9:00 PM<br>🎶 Listening Night <br>Turning Monday into a low-key night club — good beats, smooth transitions, no rush ✨</p>
+                        
+                        <div class="btn-group">
+                            <a href="https://discord.com/channels/1460662659337949217/1461044755302584492/1464986384350843058" target="_blank" class="event-btn">Tap To Know More</a>
+                            <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Monday+Music+Night+vocaloid.in&dates=20260126T200000/20260126T210000&details=Low-key+night+club+beats+at+vocaloid.in+Discord.&location=Discord" target="_blank" class="remind-btn" title="Add to Google Calendar">
+                                <i class="fa-solid fa-calendar-plus"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <h3> Monday Music Night – Week 2  [ENDED] </h3>
-                <p>📅 26 January 2026 (Monday)<br>⏰ 8:00 PM – 9:00 PM<br>🎶 Listening Night <br>Turning Monday into a low-key night club — good beats, smooth transitions, no rush ✨</p>
-                
-                <div class="btn-group">
-                    <a href="https://discord.com/channels/1460662659337949217/1461044755302584492/1464986384350843058" target="_blank" class="event-btn">Tap To Know More</a>
-                    
-                    <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Monday+Music+Night+vocaloid.in&dates=20260126T200000/20260126T210000&details=Low-key+night+club+beats+at+vocaloid.in+Discord.&location=Discord" target="_blank" class="remind-btn" title="Add to Google Calendar">
-                        <i class="fa-solid fa-calendar-plus"></i>
-                    </a>
-                </div>
             </div>
-        </div>
 
+            <aside class="sidebar-card reveal">
+                <h2>Event Calendar</h2>
+                <ul class="calendar-list">
+                    <li class="calendar-item">
+                        <span class="cal-day">Monday</span>
+                        <span class="cal-task">Music Night</span>
+                        <span class="cal-time">8:30 - 9:30 PM</span>
+                    </li>
+                    <li class="calendar-item">
+                        <span class="cal-day">Tuesday</span>
+                        <span class="cal-task">study with miku</span>
+                        <span class="cal-time">8:30 PM - 11:00 PM</span>
+                    </li>
+                    <li class="calendar-item">
+                        <span class="cal-day">Wednesday</span>
+                        <span class="cal-task">study with miku</span>
+                        <span class="cal-time">8:30 PM - 12:00 PM</span>
+                    </li>
+                    <li class="calendar-item">
+                        <span class="cal-day">Thursday</span>
+                        <span class="cal-task">study with miku</span>
+                        <span class="cal-time">8:30 PM - 12:00 PM</span>
+                    </li>
+                    <li class="calendar-item">
+                        <span class="cal-day">Friday</span>
+                        <span class="cal-task">study with miku</span>
+                        <span class="cal-time">8:30 PM - 12:00 PM</span>
+                    </li>
+                </ul>
+            </aside>
+        </div>
     </div>
 
     <footer>
-            <div class="container">
-                <h2 style="font-weight: 800; margin-bottom: 10px;">vocaloid.in</h2>
-                <p style="color: var(--gray); margin-bottom: 25px;">The Indian Synthesizer Hub.</p>
-                
-                <div style="border-top: 1px solid #f0f0f0; padding-top: 30px; margin-top: 20px;">
-                    <p style="font-size: 0.85rem; color: var(--gray); font-family: 'Space Grotesk'; letter-spacing: 1px;">
-                        &copy; 2026 VOCALOID.IN. ALL RIGHTS RESERVED.
-                    </p>
-                    <p style="font-size: 0.75rem; color: #b1b1b1; margin-top: 8px;">
-                        All trademarks, characters, and content belong to their respective owners.
-                    </p>
-                </div>
+        <div class="container">
+            <h2 style="font-weight: 800; margin-bottom: 10px;">vocaloid.in</h2>
+            <p style="color: var(--gray); margin-bottom: 25px;">The Indian Synthesizer Hub.</p>
+            <div style="border-top: 1px solid #f0f0f0; padding-top: 30px; margin-top: 20px;">
+                <p style="font-size: 0.85rem; color: var(--gray); font-family: 'Space Grotesk'; letter-spacing: 1px;">&copy; 2026 VOCALOID.IN. ALL RIGHTS RESERVED.</p>
+                <p style="font-size: 0.75rem; color: #b1b1b1; margin-top: 8px;">All trademarks belong to their respective owners.</p>
             </div>
-        </footer>
+        </div>
+    </footer>
 
     <script>
         const cursor = document.getElementById('cursor');
@@ -219,8 +236,19 @@
         }
         animateFollower();
 
-        // Hover scale for cursor
-        document.querySelectorAll('a, button, .event-card').forEach(el => {
+        // Reveal Animations on Scroll
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.event-card, .sidebar-card').forEach(el => observer.observe(el));
+
+        document.querySelectorAll('a, button, .event-card, .sidebar-card').forEach(el => {
             el.addEventListener('mouseenter', () => {
                 follower.style.transform = 'translate(-50%, -50%) scale(2.5)';
                 follower.style.background = 'rgba(0, 242, 234, 0.1)';
