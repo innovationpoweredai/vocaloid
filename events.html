@@ -122,8 +122,10 @@
         .btn-group { display: flex; align-items: center; gap: 12px; }
         .event-btn { padding: 14px 30px; background: var(--dark); color: white; text-decoration: none; border-radius: 100px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
         .event-btn:hover { background: var(--accent); color: var(--dark); }
-        .remind-btn { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border: 1px solid #eee; border-radius: 50%; color: var(--dark); text-decoration: none; transition: 0.3s; font-size: 1.1rem; }
-        .remind-btn:hover { border-color: var(--accent); color: var(--accent); background: #f0ffff; }
+        
+        /* Style for both side-buttons */
+        .remind-btn, .share-btn { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border: 1px solid #eee; border-radius: 50%; color: var(--dark); text-decoration: none; transition: 0.3s; font-size: 1.1rem; background: transparent; }
+        .remind-btn:hover, .share-btn:hover { border-color: var(--accent); color: var(--accent); background: #f0ffff; }
 
         footer { padding: 80px 0; text-align: center; border-top: 1px solid #eee; margin-top: 100px; opacity: 0.6; }
 
@@ -168,9 +170,14 @@
                         
                         <div class="btn-group">
                             <a href="https://discord.com/channels/1460662659337949217/1461044755302584492/1464986384350843058" target="_blank" class="event-btn">Tap To Know More</a>
+                            
                             <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Monday+Music+Night+vocaloid.in&dates=20260126T200000/20260126T210000&details=Low-key+night+club+beats+at+vocaloid.in+Discord.&location=Discord" target="_blank" class="remind-btn" title="Add to Google Calendar">
                                 <i class="fa-solid fa-calendar-plus"></i>
                             </a>
+
+                            <button class="share-btn" title="Share Event" onclick="shareEvent()">
+                                <i class="fa-solid fa-share-nodes"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -236,6 +243,21 @@
             requestAnimationFrame(animateFollower);
         }
         animateFollower();
+
+        // SHARE FUNCTION
+        function shareEvent() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Monday Music Night | vocaloid.in',
+                    text: 'Join us for a low-key listening night at vocaloid.in!',
+                    url: window.location.href
+                }).catch(err => console.log('Error sharing', err));
+            } else {
+                // Fallback: Copy link to clipboard
+                navigator.clipboard.writeText(window.location.href);
+                alert('Link copied to clipboard!');
+            }
+        }
 
         // Reveal Animations on Scroll
         const observerOptions = { threshold: 0.1 };
