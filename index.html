@@ -43,7 +43,7 @@
             z-index: 10000; transition: transform 0.2s ease-out;
         }
 
-        /* --- NEW RADIO CSS --- */
+        /* --- RADIO WIDGET CSS --- */
         .radio-container {
             position: fixed; bottom: 40px; left: 40px;
             z-index: 6000; display: flex; align-items: center;
@@ -57,7 +57,7 @@
         #radio-toggle {
             background: var(--dark); color: white; border: none;
             padding: 5px 12px; border-radius: 20px; font-family: 'Space Grotesk';
-            font-weight: 700; font-size: 0.7rem; letter-spacing: 1px;
+            font-weight: 700; font-size: 0.7rem; letter-spacing: 1px; transition: 0.2s;
         }
 
         .radio-art-wrap {
@@ -71,7 +71,7 @@
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         .radio-info { text-decoration: none; color: var(--dark); font-weight: 800; font-size: 1.1rem; }
-        #sc-iframe { display: none; }
+        #sc-hidden-frame { display: none; }
 
         /* --- FLOATING TRIGGER ICON --- */
         .nav-trigger {
@@ -249,7 +249,7 @@
         <a href="highlights.html" class="radio-info">ⓘ</a>
     </div>
 
-    <iframe id="sc-iframe" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2256612257&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>
+    <iframe id="sc-hidden-frame" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2256612257&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>
 
     <div class="drawer-overlay" id="overlay" onclick="toggleNav()"></div>
     
@@ -443,12 +443,8 @@
                 // Enable the bubble zone interaction
                 document.getElementById('bubble-trigger').style.pointerEvents = 'auto';
                 
-                // SHOW RADIO AND PLAY
+                // Show Radio Widget (Stopped initially)
                 document.getElementById('radio-box').classList.add('show');
-                scWidget.play();
-                radioToggle.innerText = "ON";
-                radioImg.classList.remove('paused');
-                isPlaying = true;
             }, 600);
         }
 
@@ -487,8 +483,8 @@
             link.addEventListener('click', () => toggleNav());
         });
 
-        /* --- RADIO LOGIC (APPENDED WITHOUT CHANGING ABOVE) --- */
-        const scWidget = SC.Widget(document.getElementById('sc-iframe'));
+        /* --- RADIO LOGIC (APPENDED) --- */
+        const scWidget = SC.Widget(document.getElementById('sc-hidden-frame'));
         const radioToggle = document.getElementById('radio-toggle');
         const radioImg = document.getElementById('radio-img');
         let isPlaying = false;
@@ -497,13 +493,18 @@
             if(!isPlaying) {
                 scWidget.play();
                 radioToggle.innerText = "ON";
+                radioToggle.style.background = "var(--accent)";
+                radioToggle.style.color = "var(--dark)";
                 radioImg.classList.remove('paused');
+                isPlaying = true;
             } else {
                 scWidget.pause();
                 radioToggle.innerText = "OFF";
+                radioToggle.style.background = "var(--dark)";
+                radioToggle.style.color = "white";
                 radioImg.classList.add('paused');
+                isPlaying = false;
             }
-            isPlaying = !isPlaying;
         });
     </script>
 </body>
