@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miku Chan | Terms of Service</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg: #ffffff;
+            --accent: #00f2ea;
+            --dark: #0a0a0a;
+            --gray: #94a3b8;
+            --light-gray: #f8fafc;
+            --br: 24px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--dark);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        #cursor { width: 10px; height: 10px; background: var(--dark); position: fixed; border-radius: 50%; pointer-events: none; z-index: 10001; mix-blend-mode: difference; }
+        #cursor-follower { width: 40px; height: 40px; border: 1px solid var(--dark); position: fixed; border-radius: 50%; pointer-events: none; z-index: 10000; transition: transform 0.1s ease-out; }
+
+        /* --- LAYOUT --- */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        .nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 100px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--dark);
+            font-family: 'Space Grotesk';
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 4px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            color: var(--accent);
+            border-color: var(--dark);
+        }
+
+        /* --- CONTENT --- */
+        .hero-section {
+            margin-bottom: 80px;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            letter-spacing: -3px;
+            line-height: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .bot-badge {
+            display: inline-block;
+            background: var(--dark);
+            color: var(--accent);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-family: 'Space Grotesk';
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .policy-block {
+            margin-bottom: 60px;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk';
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h2::before {
+            content: '';
+            width: 30px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        p {
+            color: #475569;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+
+        ul {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+            color: #334155;
+        }
+
+        li::before {
+            content: "0"+counter(section);
+            counter-increment: section;
+            position: absolute;
+            left: 0;
+            font-size: 0.6rem;
+            font-weight: 800;
+            color: var(--accent);
+            top: 5px;
+        }
+
+        .note-box {
+            background: var(--light-gray);
+            padding: 30px;
+            border-radius: var(--br);
+            border-left: 4px solid var(--accent);
+            margin: 40px 0;
+        }
+
+        footer {
+            margin-top: 120px;
+            padding-top: 40px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+
+    <div class="container">
+        <nav class="nav-header fade-in">
+            <a href="index.html" class="back-btn">Exit Document</a>
+            <div class="bot-badge">Miku Chan Music-Bot</div>
+        </nav>
+
+        <header class="hero-section fade-in" style="animation-delay: 0.1s;">
+            <h1>Terms & <br>Conditions.</h1>
+            <p style="margin-top: 20px; font-weight: 600;">Last Updated: Jan 2026</p>
+        </header>
+
+        <main class="fade-in" style="animation-delay: 0.2s;">
+            
+            <section class="policy-block">
+                <h2>General Usage</h2>
+                <p>Miku Chan is designed as a collective music tool for the Indian Vocaloid scene. By interacting with the bot, you acknowledge that:</p>
+                <ul style="counter-reset: section;">
+                    <li>You will not use the bot for commercial broadcasting.</li>
+                    <li>The bot is provided "as is" without warranty of uptime.</li>
+                    <li>Command spamming is prohibited and results in a node-ban.</li>
+                </ul>
+            </section>
+
+            <div class="note-box">
+                <p style="margin: 0; font-weight: 700; color: var(--dark);">Privacy Statement:</p>
+                <p style="margin: 0; font-size: 0.9rem;">We do not record audio. We only track server IDs to maintain voice connection stability across our regional clusters.</p>
+            </div>
+
+            <section class="policy-block">
+                <h2>Content Rights</h2>
+                <p>Miku Chan streams music from public repositories and community-submitted archives. We respect the "P" (Producer) culture:</p>
+                <ul style="counter-reset: section;">
+                    <li>Metadata including Producer names will always be displayed.</li>
+                    <li>We honor "Do Not Redistribute" requests from artists.</li>
+                    <li>The bot does not store permanent copies of copyrighted tracks.</li>
+                </ul>
+            </section>
+
+            <section class="policy-block">
+                <h2>Termination</h2>
+                <p>The Vocaloid.in collective reserves the right to restrict access to Miku Chan if a server is found to be hosting malicious content or violating Discord's primary Safety Guidelines.</p>
+            </section>
+
+        </main>
+
+        <footer class="fade-in" style="animation-delay: 0.3s;">
+            <p>© 2026 VOCALOID.IN INDIA</p>
+            <p style="margin-top: 10px;">Not affiliated with Crypton Future Media, Inc. Hatsune Miku is a trademark of Crypton Future Media, Inc.</p>
+        </footer>
+    </div>
+
+    <script>
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            follower.style.transform = `translate(${e.clientX - 20}px, ${e.clientY - 20}px)`;
+        });
+    </script>
+</body>
+</html>
