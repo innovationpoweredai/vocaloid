@@ -3,238 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>vocaloid.in | Prism Mobile</title>
+    <title>vocaloid.in | Zen Collective</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Noto+Serif+JP:wght@400;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --bg: #030303;
-            --accent: #00f2ea;
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-main: #ffffff;
-            --text-dim: #94a3b8;
-            --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            --paper: #fcfaf2;
+            --ink: #1a1a1a;
+            --jade: #4ecdc4;
+            --stone: #94a3b8;
+            --border: rgba(26, 26, 26, 0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
-            background-color: var(--bg);
-            color: var(--text-main);
+            background-color: var(--paper);
+            color: var(--ink);
             font-family: 'Plus Jakarta Sans', sans-serif;
             overflow-x: hidden;
-            /* Animated background gradient */
-            background: linear-gradient(135deg, #030303 0%, #0a111a 100%);
-            background-attachment: fixed;
+            background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
         }
 
-        /* --- REDIRECT SYSTEM --- */
+        /* --- CULTURAL REDIRECT --- */
         <script>
             if (window.innerWidth > 768) { window.location.href = "index.html"; }
         </script>
 
-        /* --- ANIMATIONS --- */
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* --- ZEN ANIMATIONS --- */
+        @keyframes zenFade {
+            from { opacity: 0; transform: translateY(15px); filter: blur(5px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
         }
 
-        @keyframes neonPulse {
-            0%, 100% { text-shadow: 0 0 10px var(--accent); }
-            50% { text-shadow: 0 0 25px var(--accent), 0 0 35px var(--accent); }
+        /* --- ZEN ENTRANCE --- */
+        #welcome-gate {
+            position: fixed; inset: 0; background: var(--paper);
+            z-index: 10000; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            transition: 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .gate-symbol {
+            font-family: 'Noto Serif JP'; font-size: 3rem; margin-bottom: 20px;
+            color: var(--ink); opacity: 0.8;
+        }
+        .enter-btn {
+            background: none; border: 1px solid var(--ink);
+            color: var(--ink); padding: 15px 40px; border-radius: 0;
+            font-family: 'Space Grotesk'; font-size: 0.7rem; letter-spacing: 4px;
+            text-transform: uppercase; cursor: pointer;
         }
 
         /* --- NAVIGATION ISLAND --- */
         .nav-island {
-            position: fixed; bottom: 20px; left: 50%;
-            transform: translateX(-50%); width: 92%;
-            height: 75px; background: rgba(15, 15, 15, 0.85);
-            backdrop-filter: blur(25px); border-radius: 100px;
-            border: 1px solid var(--glass-border);
+            position: fixed; bottom: 30px; left: 50%;
+            transform: translateX(-50%); width: 85%;
+            height: 60px; background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px); border: 1px solid var(--border);
             display: flex; align-items: center; justify-content: space-around;
-            z-index: 9000; box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            z-index: 9000; box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            border-radius: 2px;
         }
-        .nav-island i { font-size: 1.3rem; color: var(--text-dim); transition: 0.4s; padding: 15px; }
-        .nav-island i.active { color: var(--accent); animation: neonPulse 2s infinite; }
+        .nav-island i { font-size: 1.1rem; color: var(--stone); transition: 0.5s; }
+        .nav-island i.active { color: var(--jade); }
 
-        /* --- WELCOME GATE --- */
-        #welcome-gate {
-            position: fixed; inset: 0; background: #000;
-            z-index: 10000; display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            transition: 1s cubic-bezier(0.8, 0, 0.2, 1);
-        }
-        .enter-btn {
-            background: none; border: 2px solid var(--accent);
-            color: var(--accent); padding: 20px 60px; border-radius: 50px;
-            font-family: 'Space Grotesk'; font-weight: 800; letter-spacing: 5px;
-            text-transform: uppercase; transition: 0.3s;
-        }
-        .enter-btn:active { background: var(--accent); color: #000; transform: scale(0.9); }
-
-        /* --- HERO SECTION --- */
-        #main-site { opacity: 0; padding-bottom: 120px; transition: 1s ease; }
-        .hero { min-height: 90vh; display: flex; flex-direction: column; justify-content: center; padding: 40px 25px; }
-        .hero-title { font-size: 5.5rem; font-weight: 800; letter-spacing: -6px; line-height: 0.8; margin-bottom: 25px; }
+        /* --- MAIN CONTENT --- */
+        #main-site { opacity: 0; transition: 1.5s; padding-bottom: 120px; }
+        .hero { min-height: 80vh; padding: 60px 30px; display: flex; flex-direction: column; justify-content: flex-end; position: relative; }
         
-        /* --- DYNAMIC BUTTONS --- */
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 40px; }
-        .btn-pill { 
-            padding: 18px; border-radius: 24px; text-align: center; font-weight: 700;
-            text-decoration: none; border: 1px solid var(--glass-border);
-            background: var(--glass); color: #fff; font-size: 0.85rem;
-            transition: 0.3s;
+        .hero-vertical-text {
+            position: absolute; top: 60px; right: 30px;
+            writing-mode: vertical-rl; font-family: 'Noto Serif JP';
+            font-size: 0.8rem; letter-spacing: 0.5em; color: var(--stone);
         }
-        .btn-pill.primary { background: var(--accent); color: #000; border: none; }
-        .btn-pill:active { transform: scale(0.95); background: rgba(255,255,255,0.1); }
 
-        /* --- FEATURE TILES --- */
-        .section-header { font-family: 'Space Grotesk'; font-size: 1.2rem; letter-spacing: 2px; margin: 40px 0 20px; display: flex; align-items: center; gap: 10px; }
-        .feature-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
-        .feature-tile {
-            background: var(--glass); backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border); border-radius: 28px;
-            padding: 25px; display: flex; gap: 20px; align-items: center;
+        .hero-title { font-size: 4.5rem; font-weight: 800; letter-spacing: -4px; line-height: 0.85; margin-bottom: 30px; }
+        
+        /* --- ACTION BUTTONS (FROM INDEX) --- */
+        .btn-stack { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        .zen-btn {
+            padding: 20px; border: 1px solid var(--border); background: #fff;
+            color: var(--ink); text-decoration: none; font-size: 0.8rem;
+            font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .feature-tile i { font-size: 1.6rem; color: var(--accent); }
-        .feature-tile h3 { font-size: 1.1rem; margin-bottom: 4px; }
-        .feature-tile p { font-size: 0.8rem; color: var(--text-dim); }
+        .zen-btn.dark { background: var(--ink); color: #fff; border: none; }
 
-        /* --- COMMUNITY BENTO --- */
-        .video-card {
-            background: #000; border-radius: 32px; overflow: hidden;
-            border: 1px solid var(--glass-border); margin-top: 20px;
+        /* --- FEATURES SECTION --- */
+        .section-label { font-family: 'Space Grotesk'; font-size: 0.6rem; letter-spacing: 5px; color: var(--stone); margin: 60px 0 20px; text-transform: uppercase; }
+        .feature-box {
+            background: #fff; padding: 30px; border-bottom: 1px solid var(--border);
+            display: flex; flex-direction: column; gap: 10px;
         }
-        .synergy-box {
-            background: linear-gradient(135deg, #00f2ea 0%, #005f5c 100%);
-            color: #000; border-radius: 32px; padding: 40px 25px; margin-top: 15px;
-        }
-        .synergy-box h2 { font-size: 3rem; font-weight: 800; letter-spacing: -2px; line-height: 1; }
+        .feature-box h3 { font-family: 'Noto Serif JP'; font-size: 1.2rem; }
+        .feature-box p { font-size: 0.85rem; color: var(--stone); line-height: 1.8; }
 
-        /* --- SCROLL REVEAL --- */
-        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1); }
+        /* --- YOUTUBE BENTO --- */
+        .video-container { width: 100%; aspect-ratio: 16/9; background: #000; margin: 20px 0; border: 10px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .synergy-card { background: var(--jade); padding: 40px 30px; color: #fff; }
+        .synergy-card h2 { font-family: 'Noto Serif JP'; font-size: 2.5rem; line-height: 1; margin-bottom: 20px; }
+        .synergy-list { list-style: none; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; }
+        .synergy-list li { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+
+        /* --- REVEAL --- */
+        .reveal { opacity: 0; transform: translateY(20px); transition: 1s cubic-bezier(0.2, 1, 0.3, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        footer { padding: 60px 25px; text-align: center; }
-        .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px; }
-        .footer-links a { font-size: 0.6rem; color: var(--text-dim); text-decoration: none; text-transform: uppercase; font-family: 'Space Grotesk'; }
+        footer { padding: 80px 30px; text-align: left; border-top: 1px solid var(--border); }
+        .footer-link-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px; }
+        .footer-link-group a { font-size: 0.7rem; color: var(--stone); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
+
     </style>
 </head>
 <body>
 
     <div id="welcome-gate">
-        <h2 style="font-family: 'Space Grotesk'; color: #fff; margin-bottom: 20px; letter-spacing: 3px;">PRISM GATE</h2>
-        <button class="enter-btn" onclick="unlock()">Access</button>
+        <div class="gate-symbol">初音</div>
+        <button class="enter-btn" onclick="openZen()">Open Gate</button>
     </div>
 
     <nav class="nav-island">
         <i class="fa-solid fa-house active" onclick="window.scrollTo({top:0, behavior:'smooth'})"></i>
+        <i class="fa-solid fa-leaf" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})"></i>
         <i class="fa-solid fa-play" onclick="document.getElementById('community').scrollIntoView({behavior:'smooth'})"></i>
-        <i class="fa-solid fa-robot" onclick="window.location.href='bot.html'"></i>
         <i class="fa-brands fa-discord" onclick="window.location.href='https://discord.gg/3jhAzkhpvz'"></i>
     </nav>
 
     <div id="main-site">
-        <div class="container">
-            <header class="hero">
-                <p style="font-family: 'Space Grotesk'; color: var(--accent); letter-spacing: 5px; font-size: 0.6rem; margin-bottom: 15px;">EST. 2026 // INDIA</p>
-                <h1 class="hero-title">vocaloid<span style="color: var(--accent);">.in</span></h1>
-                
-                <div class="action-grid" style="margin-top: 40px;">
-                    <a href="https://discord.gg/3jhAzkhpvz" class="btn-pill primary">DISCORD</a>
-                    <a href="community.html" class="btn-pill">COMMUNITY</a>
-                    <a href="bot.html" class="btn-pill">DIVA BOT</a>
-                    <a href="highlights.html" class="btn-pill">HIGHLIGHTS</a>
-                </div>
-            </header>
+        <div class="hero">
+            <div class="hero-vertical-text">ヴォーカロイド・イン // 2026</div>
+            <p style="font-family: 'Space Grotesk'; font-size: 0.6rem; letter-spacing: 4px; color: var(--stone); margin-bottom: 10px;">HARMONY IN SILENCE</p>
+            <h1 class="hero-title">vocaloid<br><span style="color: var(--jade);">.in</span></h1>
+            
+            <div class="btn-stack">
+                <a href="https://discord.gg/3jhAzkhpvz" class="zen-btn dark">Join Collective <i class="fa-solid fa-chevron-right"></i></a>
+                <a href="community.html" class="zen-btn">The Community</a>
+                <a href="highlights.html" class="zen-btn">Our Highlights</a>
+            </div>
+        </div>
 
-            <section style="padding: 0 25px;">
-                <h2 class="section-header"><i class="fa-solid fa-layer-group"></i> CORE SYSTEMS</h2>
-                <div class="feature-grid">
-                    <div class="feature-tile reveal">
-                        <i class="fa-solid fa-microphone"></i>
-                        <div><h3>Vocaloid & Synth</h3><p>Synthesizer V and voicebank tuning hub.</p></div>
-                    </div>
-                    <div class="feature-tile reveal">
-                        <i class="fa-solid fa-palette"></i>
-                        <div><h3>Creative Space</h3><p>Share music, art, and PV experiments.</p></div>
-                    </div>
-                    <div class="feature-tile reveal">
-                        <i class="fa-solid fa-headphones"></i>
-                        <div><h3>Listening Nights</h3><p>Community song discoveries every week.</p></div>
-                    </div>
-                    <div class="feature-tile reveal">
-                        <i class="fa-solid fa-clock"></i>
-                        <div><h3>Study with Miku</h3><p>Lofi-powered pomodoro sessions.</p></div>
-                    </div>
-                    <div class="feature-tile reveal">
-                        <i class="fa-solid fa-peace"></i>
-                        <div><h3>Calm Culture</h3><p>Noise-free, patient creative environment.</p></div>
-                    </div>
-                    <div class="feature-tile reveal">
-                        <i class="fa-solid fa-globe"></i>
-                        <div><h3>Global Access</h3><p>Open for every fan around the planet.</p></div>
-                    </div>
+        <div class="container" style="padding: 0 30px;">
+            
+            <section id="features">
+                <p class="section-label">Philosophies</p>
+                
+                <div class="feature-box reveal">
+                    <h3>01. 響き - Resonance</h3>
+                    <p>Discuss Synthesizer V and voicebank tuning in a space dedicated to the art of sound.</p>
+                </div>
+
+                <div class="feature-box reveal">
+                    <h3>02. 創造 - Creation</h3>
+                    <p>A quiet gallery for your music, fanart, and video experiments.</p>
+                </div>
+
+                <div class="feature-box reveal">
+                    <h3>03. 静寂 - Stillness</h3>
+                    <p>Weekly listening nights and study sessions powered by Miku and lofi-ambience.</p>
+                </div>
+
+                <div class="feature-box reveal">
+                    <h3>04. 礼儀 - Respect</h3>
+                    <p>An Indian-led hub built on the culture of patience, calm, and global friendship.</p>
                 </div>
             </section>
 
-            <section id="community" style="padding: 60px 25px;">
-                <h2 class="section-header"><i class="fa-brands fa-youtube"></i> VISUAL HUB</h2>
+            <section id="community" style="margin-top: 80px;">
+                <p class="section-label">Visual Journal</p>
                 
-                <div class="video-card reveal">
-                    <div style="background: #FF0000; padding: 12px 20px; font-family: 'Space Grotesk'; font-size: 0.7rem; font-weight: 800;">LATEST UPLOAD</div>
-                    <div style="width:100%; aspect-ratio:16/9;">
+                <div class="reveal" style="margin-bottom: 20px;">
+                    <p style="font-size: 0.9rem; margin-bottom: 20px;">Our YouTube channel serves as the visual archive of our collective's journey.</p>
+                    <div class="video-container">
                         <iframe width="100%" height="100%" src="https://www.youtube.com/embed?listType=user_search&list=VocaloidIndia" frameborder="0"></iframe>
                     </div>
                 </div>
 
-                <div class="synergy-box reveal">
-                    <h2>Visual Synergy.</h2>
-                    <p style="margin-top: 15px; font-weight: 700;">Official Collective PVs and Originals.</p>
-                    <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
-                        <span style="font-family:'Space Grotesk'; font-size: 0.7rem;"><i class="fa-solid fa-bolt"></i> ORIGINAL MUSIC VIDEOS</span>
-                        <span style="font-family:'Space Grotesk'; font-size: 0.7rem;"><i class="fa-solid fa-bolt"></i> TECHNICAL TUTORIALS</span>
-                        <span style="font-family:'Space Grotesk'; font-size: 0.7rem;"><i class="fa-solid fa-bolt"></i> EVENT LIVESTREAMS</span>
-                    </div>
+                <div class="synergy-card reveal">
+                    <h2>Visual<br>Synergy.</h2>
+                    <ul class="synergy-list">
+                        <li><i class="fa-solid fa-circle" style="font-size: 4px;"></i> Original Music Videos</li>
+                        <li><i class="fa-solid fa-circle" style="font-size: 4px;"></i> Technical Synth Wisdom</li>
+                        <li><i class="fa-solid fa-circle" style="font-size: 4px;"></i> Live Broadcasts</li>
+                    </ul>
                 </div>
 
-                <a href="https://youtube.com/@VocaloidIndia" class="btn-pill primary" style="display: block; margin-top: 20px; border-radius: 32px; padding: 25px;">
-                    EXPLORE YOUTUBE <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                <a href="https://youtube.com/@VocaloidIndia" class="zen-btn" style="margin-top: 20px; border: none; background: #fff;">
+                    Visit Stage <i class="fa-solid fa-arrow-up-right-from-square"></i>
                 </a>
             </section>
-
-            <footer>
-                <h2 style="font-weight: 800;">vocaloid.in</h2>
-                <div class="footer-links">
-                    <a href="t&c.html">Terms</a>
-                    <span>•</span>
-                    <a href="bot.html">Bot</a>
-                    <span>•</span>
-                    <a href="events.html">Events</a>
-                    <span>•</span>
-                    <a href="highlights.html">Highlights</a>
-                </div>
-                <p style="margin-top: 30px; font-size: 0.6rem; color: var(--text-dim); font-family: 'Space Grotesk';">© 2026 VOCALOID.IN COLLECTIVE</p>
-            </footer>
         </div>
+
+        <footer>
+            <h2 style="font-family: 'Noto Serif JP'; font-weight: 400; font-size: 1.8rem;">vocaloid.in</h2>
+            <div class="footer-link-group">
+                <a href="index.html">Home</a>
+                <a href="events.html">Events</a>
+                <a href="community.html">Community</a>
+                <a href="highlights.html">Highlights</a>
+                <a href="t&c.html">Terms</a>
+                <a href="https://discord.gg/3jhAzkhpvz">Discord</a>
+            </div>
+            <p style="margin-top: 50px; font-size: 0.6rem; color: var(--stone); letter-spacing: 2px;">© 2026 THE ZEN COLLECTIVE</p>
+        </footer>
     </div>
 
     <script>
-        function unlock() {
-            document.getElementById('welcome-gate').style.transform = 'translateY(-100%)';
-            document.getElementById('main-site').style.opacity = '1';
+        function openZen() {
+            document.getElementById('welcome-gate').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('welcome-gate').style.display = 'none';
+                document.getElementById('main-site').style.opacity = '1';
+                // Trigger first reveals manually for smoother start
+                handleScroll();
+            }, 1000);
         }
 
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) entry.target.classList.add('active');
+        function handleScroll() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.9) {
+                    el.classList.add('active');
+                }
             });
-        }, { threshold: 0.1 });
+        }
 
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        window.addEventListener('scroll', handleScroll);
     </script>
 </body>
 </html>
