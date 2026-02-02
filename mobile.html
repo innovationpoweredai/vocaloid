@@ -10,12 +10,13 @@
 
     <style>
         :root {
-            --bg: #050505;
+            --bg: #030303;
             --accent: #00f2ea;
-            --glass: rgba(255, 255, 255, 0.03);
+            --glass: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
             --text-main: #ffffff;
             --text-dim: #94a3b8;
+            --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -25,7 +26,9 @@
             color: var(--text-main);
             font-family: 'Plus Jakarta Sans', sans-serif;
             overflow-x: hidden;
-            background: radial-gradient(circle at 0% 0%, #0a192f 0%, #050505 50%);
+            /* Animated background gradient */
+            background: linear-gradient(135deg, #030303 0%, #0a111a 100%);
+            background-attachment: fixed;
         }
 
         /* --- REDIRECT SYSTEM --- */
@@ -33,248 +36,196 @@
             if (window.innerWidth > 768) { window.location.href = "index.html"; }
         </script>
 
-        /* --- PREMIUM ANIMATIONS --- */
-        @keyframes revealBlur {
-            from { filter: blur(20px); opacity: 0; transform: scale(1.1); }
-            to { filter: blur(0); opacity: 1; transform: scale(1); }
+        /* --- ANIMATIONS --- */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+        @keyframes neonPulse {
+            0%, 100% { text-shadow: 0 0 10px var(--accent); }
+            50% { text-shadow: 0 0 25px var(--accent), 0 0 35px var(--accent); }
         }
 
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 0 0 rgba(0, 242, 234, 0.4); }
-            70% { box-shadow: 0 0 0 20px rgba(0, 242, 234, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 242, 234, 0); }
-        }
-
-        /* --- UI ELEMENTS --- */
-        .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 32px;
-            padding: 30px;
-            margin-bottom: 20px;
-        }
-
-        /* --- NAVIGATION --- */
+        /* --- NAVIGATION ISLAND --- */
         .nav-island {
-            position: fixed; bottom: 25px; left: 50%;
-            transform: translateX(-50%); width: 90%;
-            height: 70px; background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(20px); border-radius: 40px;
+            position: fixed; bottom: 20px; left: 50%;
+            transform: translateX(-50%); width: 92%;
+            height: 75px; background: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(25px); border-radius: 100px;
             border: 1px solid var(--glass-border);
             display: flex; align-items: center; justify-content: space-around;
-            z-index: 9000; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            z-index: 9000; box-shadow: 0 15px 35px rgba(0,0,0,0.6);
         }
-        .nav-island i { font-size: 1.4rem; color: var(--text-dim); transition: 0.3s; }
-        .nav-island i.active { color: var(--accent); text-shadow: 0 0 15px var(--accent); }
+        .nav-island i { font-size: 1.3rem; color: var(--text-dim); transition: 0.4s; padding: 15px; }
+        .nav-island i.active { color: var(--accent); animation: neonPulse 2s infinite; }
 
         /* --- WELCOME GATE --- */
         #welcome-gate {
             position: fixed; inset: 0; background: #000;
             z-index: 10000; display: flex; flex-direction: column;
             justify-content: center; align-items: center;
-            transition: 1.2s cubic-bezier(0.9, 0, 0.1, 1);
+            transition: 1s cubic-bezier(0.8, 0, 0.2, 1);
         }
-        .miku-loader {
-            width: 80px; height: 80px; border: 3px solid var(--accent);
-            border-radius: 50%; border-top-color: transparent;
-            animation: spin 1s infinite linear; margin-bottom: 20px;
+        .enter-btn {
+            background: none; border: 2px solid var(--accent);
+            color: var(--accent); padding: 20px 60px; border-radius: 50px;
+            font-family: 'Space Grotesk'; font-weight: 800; letter-spacing: 5px;
+            text-transform: uppercase; transition: 0.3s;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .enter-btn:active { background: var(--accent); color: #000; transform: scale(0.9); }
 
         /* --- HERO SECTION --- */
-        #main-site { opacity: 0; padding-bottom: 120px; }
-        .hero-section { min-height: 85vh; display: flex; flex-direction: column; justify-content: center; padding: 40px 25px; }
-        .hero-tag { font-family: 'Space Grotesk'; color: var(--accent); letter-spacing: 5px; font-size: 0.7rem; margin-bottom: 15px; }
-        .hero-title { font-size: 5rem; font-weight: 800; letter-spacing: -5px; line-height: 0.8; margin-bottom: 30px; }
+        #main-site { opacity: 0; padding-bottom: 120px; transition: 1s ease; }
+        .hero { min-height: 90vh; display: flex; flex-direction: column; justify-content: center; padding: 40px 25px; }
+        .hero-title { font-size: 5.5rem; font-weight: 800; letter-spacing: -6px; line-height: 0.8; margin-bottom: 25px; }
         
-        /* --- RADIO FLOAT --- */
-        .radio-float {
-            display: flex; align-items: center; gap: 15px;
-            background: var(--accent); color: #000;
-            padding: 10px 20px; border-radius: 100px;
-            font-weight: 800; font-family: 'Space Grotesk'; font-size: 0.7rem;
-            width: fit-content; margin-bottom: 40px;
+        /* --- DYNAMIC BUTTONS --- */
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 40px; }
+        .btn-pill { 
+            padding: 18px; border-radius: 24px; text-align: center; font-weight: 700;
+            text-decoration: none; border: 1px solid var(--glass-border);
+            background: var(--glass); color: #fff; font-size: 0.85rem;
+            transition: 0.3s;
         }
+        .btn-pill.primary { background: var(--accent); color: #000; border: none; }
+        .btn-pill:active { transform: scale(0.95); background: rgba(255,255,255,0.1); }
 
-        /* --- FEATURES GRID --- */
-        .section-title { font-family: 'Space Grotesk'; font-size: 1.8rem; margin: 40px 0 20px; }
-        .features-container { display: flex; flex-direction: column; gap: 15px; }
-        .feature-chip {
-            background: var(--glass); padding: 25px; border-radius: 24px;
-            border: 1px solid var(--glass-border); display: flex; gap: 20px;
-            align-items: flex-start; transition: 0.4s;
+        /* --- FEATURE TILES --- */
+        .section-header { font-family: 'Space Grotesk'; font-size: 1.2rem; letter-spacing: 2px; margin: 40px 0 20px; display: flex; align-items: center; gap: 10px; }
+        .feature-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        .feature-tile {
+            background: var(--glass); backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border); border-radius: 28px;
+            padding: 25px; display: flex; gap: 20px; align-items: center;
         }
-        .feature-chip i { font-size: 1.5rem; color: var(--accent); }
-        .feature-chip h3 { font-size: 1.1rem; margin-bottom: 5px; }
-        .feature-chip p { font-size: 0.85rem; color: var(--text-dim); }
+        .feature-tile i { font-size: 1.6rem; color: var(--accent); }
+        .feature-tile h3 { font-size: 1.1rem; margin-bottom: 4px; }
+        .feature-tile p { font-size: 0.8rem; color: var(--text-dim); }
 
-        /* --- BENTO YOUTUBE --- */
-        .youtube-bento { margin-top: 40px; }
-        .video-box {
-            width: 100%; aspect-ratio: 16/9; border-radius: 24px;
-            overflow: hidden; border: 1px solid var(--glass-border); margin: 20px 0;
+        /* --- COMMUNITY BENTO --- */
+        .video-card {
+            background: #000; border-radius: 32px; overflow: hidden;
+            border: 1px solid var(--glass-border); margin-top: 20px;
         }
-        .synergy-card {
-            background: linear-gradient(135deg, #FF0000 0%, #8b0000 100%);
-            border-radius: 32px; padding: 40px 25px; position: relative; overflow: hidden;
+        .synergy-box {
+            background: linear-gradient(135deg, #00f2ea 0%, #005f5c 100%);
+            color: #000; border-radius: 32px; padding: 40px 25px; margin-top: 15px;
         }
-        .synergy-card h2 { font-size: 3rem; letter-spacing: -2px; line-height: 1; }
-        .synergy-card ul { list-style: none; margin-top: 20px; opacity: 0.8; font-size: 0.8rem; font-family: 'Space Grotesk'; }
+        .synergy-box h2 { font-size: 3rem; font-weight: 800; letter-spacing: -2px; line-height: 1; }
 
         /* --- SCROLL REVEAL --- */
-        .reveal { opacity: 0; transform: translateY(40px); transition: 1s cubic-bezier(0.2, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
+        footer { padding: 60px 25px; text-align: center; }
+        .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px; }
+        .footer-links a { font-size: 0.6rem; color: var(--text-dim); text-decoration: none; text-transform: uppercase; font-family: 'Space Grotesk'; }
     </style>
 </head>
 <body>
 
     <div id="welcome-gate">
-        <div class="miku-loader"></div>
-        <h2 style="font-family: 'Space Grotesk'; letter-spacing: 10px; font-size: 0.6rem;">INITIATING PRISM</h2>
-        <button onclick="unlock()" style="margin-top: 50px; background: var(--accent); border: none; padding: 20px 50px; border-radius: 50px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">Start Experience</button>
+        <h2 style="font-family: 'Space Grotesk'; color: #fff; margin-bottom: 20px; letter-spacing: 3px;">PRISM GATE</h2>
+        <button class="enter-btn" onclick="unlock()">Access</button>
     </div>
 
     <nav class="nav-island">
         <i class="fa-solid fa-house active" onclick="window.scrollTo({top:0, behavior:'smooth'})"></i>
-        <i class="fa-solid fa-play" onclick="document.getElementById('community').scrollIntoView()"></i>
-        <i class="fa-solid fa-calendar" onclick="window.location.href='events.html'"></i>
+        <i class="fa-solid fa-play" onclick="document.getElementById('community').scrollIntoView({behavior:'smooth'})"></i>
+        <i class="fa-solid fa-robot" onclick="window.location.href='bot.html'"></i>
         <i class="fa-brands fa-discord" onclick="window.location.href='https://discord.gg/3jhAzkhpvz'"></i>
     </nav>
 
     <div id="main-site">
-        <div class="container" style="padding: 0 20px;">
-            <header class="hero-section">
-                <p class="hero-tag">VOCALOID.IN INDIA</p>
-                <h1 class="hero-title" id="title">vocaloid<br><span style="color: var(--accent);">.in</span></h1>
+        <div class="container">
+            <header class="hero">
+                <p style="font-family: 'Space Grotesk'; color: var(--accent); letter-spacing: 5px; font-size: 0.6rem; margin-bottom: 15px;">EST. 2026 // INDIA</p>
+                <h1 class="hero-title">vocaloid<span style="color: var(--accent);">.in</span></h1>
                 
-                <div class="radio-float" id="radio-btn" onclick="toggleRadio()">
-                    <i class="fa-solid fa-compact-disc rotating paused" id="cd-icon"></i>
-                    <span id="radio-txt">PLAY RADIO</span>
-                </div>
-
-                <div class="btn-row">
-                    <a href="https://discord.gg/3jhAzkhpvz" class="btn" style="background: #fff; color: #000; text-decoration: none; padding: 20px; border-radius: 50px; text-align: center; font-weight: 800; margin-bottom: 10px; display: block;">JOIN THE DISCORD</a>
-                    <a href="https://instagram.com/vocaloid.india" class="btn" style="border: 1px solid var(--glass-border); color: #fff; text-decoration: none; padding: 20px; border-radius: 50px; text-align: center; font-weight: 700; display: block;">INSTAGRAM</a>
+                <div class="action-grid" style="margin-top: 40px;">
+                    <a href="https://discord.gg/3jhAzkhpvz" class="btn-pill primary">DISCORD</a>
+                    <a href="community.html" class="btn-pill">COMMUNITY</a>
+                    <a href="bot.html" class="btn-pill">DIVA BOT</a>
+                    <a href="highlights.html" class="btn-pill">HIGHLIGHTS</a>
                 </div>
             </header>
 
-            <section class="features-container">
-                <h2 class="section-title">Core Systems.</h2>
-                
-                <div class="feature-chip reveal">
-                    <i class="fa-solid fa-microphone-lines"></i>
-                    <div>
-                        <h3>Vocaloid & Synth</h3>
-                        <p>Deep discussions on Synthesizer V, voicebanks, and tuning techniques.</p>
+            <section style="padding: 0 25px;">
+                <h2 class="section-header"><i class="fa-solid fa-layer-group"></i> CORE SYSTEMS</h2>
+                <div class="feature-grid">
+                    <div class="feature-tile reveal">
+                        <i class="fa-solid fa-microphone"></i>
+                        <div><h3>Vocaloid & Synth</h3><p>Synthesizer V and voicebank tuning hub.</p></div>
                     </div>
-                </div>
-
-                <div class="feature-chip reveal">
-                    <i class="fa-solid fa-palette"></i>
-                    <div>
-                        <h3>Creative Sharing</h3>
-                        <p>The visual heart for music, fanart, and video experiments.</p>
+                    <div class="feature-tile reveal">
+                        <i class="fa-solid fa-palette"></i>
+                        <div><h3>Creative Space</h3><p>Share music, art, and PV experiments.</p></div>
                     </div>
-                </div>
-
-                <div class="feature-chip reveal">
-                    <i class="fa-solid fa-headphones-simple"></i>
-                    <div>
-                        <h3>Listening Nights</h3>
-                        <p>Curated community sessions for the freshest Vocaloid tracks.</p>
+                    <div class="feature-tile reveal">
+                        <i class="fa-solid fa-headphones"></i>
+                        <div><h3>Listening Nights</h3><p>Community song discoveries every week.</p></div>
                     </div>
-                </div>
-
-                <div class="feature-chip reveal">
-                    <i class="fa-solid fa-clock"></i>
-                    <div>
-                        <h3>Study with Miku</h3>
-                        <p>Productive lofi-powered study sessions for the collective.</p>
+                    <div class="feature-tile reveal">
+                        <i class="fa-solid fa-clock"></i>
+                        <div><h3>Study with Miku</h3><p>Lofi-powered pomodoro sessions.</p></div>
                     </div>
-                </div>
-
-                <div class="feature-chip reveal">
-                    <i class="fa-solid fa-heart"></i>
-                    <div>
-                        <h3>Calm Community</h3>
-                        <p>A noise-free environment built on respect and artistic patience.</p>
+                    <div class="feature-tile reveal">
+                        <i class="fa-solid fa-peace"></i>
+                        <div><h3>Calm Culture</h3><p>Noise-free, patient creative environment.</p></div>
                     </div>
-                </div>
-
-                <div class="feature-chip reveal">
-                    <i class="fa-solid fa-earth-asia"></i>
-                    <div>
-                        <h3>Global Access</h3>
-                        <p>Indian-led foundation, but open to the world's synth fans.</p>
+                    <div class="feature-tile reveal">
+                        <i class="fa-solid fa-globe"></i>
+                        <div><h3>Global Access</h3><p>Open for every fan around the planet.</p></div>
                     </div>
                 </div>
             </section>
 
-            <section class="youtube-bento" id="community">
-                <div class="glass-card reveal">
-                    <h4 style="font-family: 'Space Grotesk'; font-size: 0.7rem; color: var(--accent);">01. PRESENCE</h4>
-                    <p style="margin-top: 10px;">Our YouTube is the digital stage for Indian Vocaloid covers and tutorials.</p>
-                    
-                    <div class="video-box">
+            <section id="community" style="padding: 60px 25px;">
+                <h2 class="section-header"><i class="fa-brands fa-youtube"></i> VISUAL HUB</h2>
+                
+                <div class="video-card reveal">
+                    <div style="background: #FF0000; padding: 12px 20px; font-family: 'Space Grotesk'; font-size: 0.7rem; font-weight: 800;">LATEST UPLOAD</div>
+                    <div style="width:100%; aspect-ratio:16/9;">
                         <iframe width="100%" height="100%" src="https://www.youtube.com/embed?listType=user_search&list=VocaloidIndia" frameborder="0"></iframe>
                     </div>
                 </div>
 
-                <div class="synergy-card reveal">
-                    <i class="fa-brands fa-youtube" style="font-size: 3rem; margin-bottom: 20px;"></i>
-                    <h2>Visual<br>Synergy.</h2>
-                    <p style="font-size: 0.9rem; margin-top: 10px;">Music videos and PVs created by the collective.</p>
-                    <ul>
-                        <li><i class="fa-solid fa-check"></i> ORIGINAL MUSIC VIDEOS</li>
-                        <li><i class="fa-solid fa-check"></i> SYNTH TUTORIALS</li>
-                        <li><i class="fa-solid fa-check"></i> EVENT LIVESTREAMS</li>
-                    </ul>
+                <div class="synergy-box reveal">
+                    <h2>Visual Synergy.</h2>
+                    <p style="margin-top: 15px; font-weight: 700;">Official Collective PVs and Originals.</p>
+                    <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                        <span style="font-family:'Space Grotesk'; font-size: 0.7rem;"><i class="fa-solid fa-bolt"></i> ORIGINAL MUSIC VIDEOS</span>
+                        <span style="font-family:'Space Grotesk'; font-size: 0.7rem;"><i class="fa-solid fa-bolt"></i> TECHNICAL TUTORIALS</span>
+                        <span style="font-family:'Space Grotesk'; font-size: 0.7rem;"><i class="fa-solid fa-bolt"></i> EVENT LIVESTREAMS</span>
+                    </div>
                 </div>
 
-                <a href="https://youtube.com/@VocaloidIndia" class="reveal" style="text-decoration: none; margin-top: 20px; display: block;">
-                    <div class="glass-card" style="display: flex; justify-content: space-between; align-items: center; background: var(--accent); color: #000; border: none;">
-                        <span style="font-weight: 800; text-transform: uppercase;">Watch on YouTube</span>
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
+                <a href="https://youtube.com/@VocaloidIndia" class="btn-pill primary" style="display: block; margin-top: 20px; border-radius: 32px; padding: 25px;">
+                    EXPLORE YOUTUBE <i class="fa-solid fa-arrow-up-right-from-square"></i>
                 </a>
             </section>
 
-            <footer style="padding: 100px 0; text-align: center; opacity: 0.5;">
-                <p style="font-family: 'Space Grotesk'; font-size: 0.7rem;">&copy; 2026 VOCALOID.IN<br>PRISM MOBILE INTERFACE</p>
+            <footer>
+                <h2 style="font-weight: 800;">vocaloid.in</h2>
+                <div class="footer-links">
+                    <a href="t&c.html">Terms</a>
+                    <span>•</span>
+                    <a href="bot.html">Bot</a>
+                    <span>•</span>
+                    <a href="events.html">Events</a>
+                    <span>•</span>
+                    <a href="highlights.html">Highlights</a>
+                </div>
+                <p style="margin-top: 30px; font-size: 0.6rem; color: var(--text-dim); font-family: 'Space Grotesk';">© 2026 VOCALOID.IN COLLECTIVE</p>
             </footer>
         </div>
     </div>
-
-    <iframe id="sc-hidden" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2256612257&auto_play=false" style="display:none;"></iframe>
-    <script src="https://w.soundcloud.com/player/api.js"></script>
 
     <script>
         function unlock() {
             document.getElementById('welcome-gate').style.transform = 'translateY(-100%)';
             document.getElementById('main-site').style.opacity = '1';
-            document.getElementById('title').style.animation = 'revealBlur 1.5s forwards';
-        }
-
-        function toggleRadio() {
-            const widget = SC.Widget(document.getElementById('sc-hidden'));
-            const icon = document.getElementById('cd-icon');
-            const txt = document.getElementById('radio-txt');
-            
-            icon.classList.toggle('paused');
-            if (icon.classList.contains('paused')) {
-                widget.pause();
-                txt.innerText = "PLAY RADIO";
-            } else {
-                widget.play();
-                txt.innerText = "NOW PLAYING";
-            }
         }
 
         const observer = new IntersectionObserver(entries => {
