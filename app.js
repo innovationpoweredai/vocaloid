@@ -1,4 +1,4 @@
-const API = "https://inquiry-jungle-carlos-ipaq.trycloudflare.com";
+const API = "https://scroll-stable-pill-terrain.trycloudflare.com";
 
 // ▶ PLAY
 function play() {
