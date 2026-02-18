@@ -1,161 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Music Player | vocaloid.in</title>
+<title>Music | vocaloid.in</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
-:root {
-    --bg: #ffffff;
-    --accent: #00f2ea;
-    --dark: #0a0a0a;
-    --gray: #94a3b8;
-    --br: 32px;
-}
-
 body {
-    background: var(--bg);
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    color: var(--dark);
-    padding: 40px;
+  font-family: 'Plus Jakarta Sans';
+  padding: 40px;
+  background: white;
 }
 
-/* TITLE */
-h1 {
-    font-size: 4rem;
-    font-weight: 800;
-    letter-spacing: -2px;
-    margin-bottom: 20px;
-    animation: fadeUp 1s ease;
-}
+h1 { font-size: 3rem; }
 
-/* INPUT */
 input {
-    width: 100%;
-    padding: 18px;
-    border-radius: 100px;
-    border: 1px solid #eee;
-    font-size: 1rem;
-    margin-bottom: 15px;
-    transition: 0.3s;
+  width: 100%;
+  padding: 15px;
+  border-radius: 50px;
+  border: 1px solid #eee;
 }
 
-input:focus {
-    border-color: var(--accent);
-    outline: none;
-}
-
-/* BUTTONS */
 button {
-    padding: 14px 25px;
-    border-radius: 100px;
-    border: none;
-    font-weight: 700;
-    margin: 5px;
-    cursor: pointer;
-    transition: 0.3s;
+  padding: 12px 20px;
+  border-radius: 50px;
+  margin: 5px;
+  border: none;
+  cursor: pointer;
 }
 
-.primary {
-    background: var(--dark);
-    color: white;
-}
+.primary { background: black; color: white; }
 
-.secondary {
-    background: transparent;
-    border: 1px solid #ddd;
-}
-
-button:hover {
-    transform: scale(1.05) translateY(-2px);
-}
-
-/* PLAYER BOX */
-.player-box {
-    background: white;
-    padding: 30px;
-    border-radius: var(--br);
-    border: 1px solid #f0f0f0;
-    margin-bottom: 30px;
-    animation: fadeUp 0.8s ease;
-}
-
-/* QUEUE */
-ul {
-    list-style: none;
-    padding: 0;
-}
-
-li {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-    font-family: 'Space Grotesk';
-    animation: slideUp 0.5s ease;
-}
-
-/* FOLDER */
 .folder {
-    padding: 20px;
-    border: 1px solid #f0f0f0;
-    border-radius: var(--br);
-    margin: 10px 0;
-    transition: 0.3s;
-}
-
-.folder:hover {
-    border-color: var(--accent);
-    transform: translateY(-3px);
-}
-
-/* LOOP BUTTON */
-.loop-btn {
-    margin-top: 10px;
-}
-
-/* ANIMATIONS */
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+  padding: 15px;
+  border: 1px solid #eee;
+  margin: 10px 0;
+  border-radius: 20px;
 }
 </style>
 </head>
 
 <body>
 
-<h1>🎧 Miku Music System</h1>
+<h1>🎧 Music System</h1>
 
-<div class="player-box">
-    <input id="song" placeholder="Paste YouTube / Spotify / Playlist">
+<input id="song" placeholder="Paste link">
 
-    <div>
-        <button class="primary" onclick="play()">Play</button>
-        <button class="secondary" onclick="pause()">Pause</button>
-        <button class="secondary" onclick="resume()">Resume</button>
-        <button class="secondary" onclick="skip()">Skip</button>
-    </div>
-</div>
+<button class="primary" onclick="play()">Play</button>
+<button onclick="pause()">Pause</button>
+<button onclick="resume()">Resume</button>
+<button onclick="skip()">Skip</button>
+
+<hr>
 
 <h2>📁 Folders</h2>
 
-<input id="folderName" placeholder="Create new folder">
-<button class="primary" onclick="createFolder()">Create</button>
+<input id="folderName" placeholder="Folder name">
+<button onclick="createFolder()">Create</button>
 
 <div id="folders"></div>
 
-<button class="secondary loop-btn" onclick="toggleLoop()">🔁 Toggle Loop</button>
+<button onclick="toggleLoop()">🔁 Loop</button>
 
-<h2>🎵 Now Playing</h2>
-<h3 id="now">Nothing</h3>
+<h2 id="now">Nothing</h2>
 
-<h2>📜 Queue</h2>
 <ul id="queue"></ul>
 
 <script src="app.js"></script>
