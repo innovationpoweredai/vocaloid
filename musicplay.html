@@ -1,100 +1,120 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Vocaloid India Player</title>
+  <title>Vocaloid Player</title>
 
   <style>
     body {
-      background: linear-gradient(135deg, #0f0f0f, #1a0033);
-      color: #ffffff;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: Arial;
+      background: linear-gradient(135deg, #0f2027, #2c5364);
+      color: white;
       text-align: center;
-      margin: 0;
       padding: 20px;
     }
 
     h1 {
-      color: #00ffff;
-      text-shadow: 0 0 10px #00ffff;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00f2ff; }
+      to { text-shadow: 0 0 25px #00f2ff; }
     }
 
     input {
-      padding: 12px;
-      width: 60%;
+      padding: 10px;
+      width: 80%;
       border-radius: 10px;
       border: none;
-      background: #111;
-      color: #00ffff;
-      outline: none;
+      margin: 10px;
     }
 
     button {
       padding: 10px 15px;
-      margin: 5px;
-      border-radius: 10px;
       border: none;
-      background: #00ffff;
+      border-radius: 10px;
+      margin: 5px;
+      background: #00f2ff;
       color: black;
       cursor: pointer;
       transition: 0.3s;
     }
 
     button:hover {
-      background: #00cccc;
-      transform: scale(1.05);
+      transform: scale(1.1);
+      background: #00c3cc;
     }
 
-    #now {
-      color: #ff4da6;
-      font-size: 18px;
-      margin-top: 10px;
+    #playerBox {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 15px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      animation: fadeIn 1s ease;
     }
 
-    #queue {
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    ul {
       list-style: none;
       padding: 0;
-      margin-top: 10px;
     }
 
     li {
-      background: #111;
-      margin: 5px auto;
-      padding: 8px;
-      border-radius: 8px;
-      width: 60%;
-      color: #00ffff;
+      padding: 5px;
+      animation: slideIn 0.5s ease;
     }
 
-    .volume {
-      margin-top: 15px;
+    @keyframes slideIn {
+      from {transform: translateX(-20px); opacity: 0;}
+      to {transform: translateX(0); opacity: 1;}
     }
 
+    .folder {
+      background: rgba(255,255,255,0.1);
+      margin: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      animation: fadeIn 0.5s ease;
+    }
   </style>
 </head>
 
 <body>
 
-<h1>🎧 Vocaloid India Player</h1>
+<h1>🎧 Vocaloid Player</h1>
 
-<input id="song" placeholder="Paste YouTube / Spotify link">
+<div id="playerBox">
+  <input id="song" placeholder="Paste YouTube / Spotify / Playlist">
 
-<br><br>
-
-<button onclick="play()">▶ Play</button>
-<button onclick="pause()">⏸ Pause</button>
-<button onclick="resume()">▶ Resume</button>
-<button onclick="skip()">⏭ Skip</button>
-
-<div class="volume">
-  <label>🔊 Volume</label><br>
-  <input type="range" min="0" max="100" value="50"
-  onchange="setVolume(this.value)">
+  <br>
+  <button onclick="play()">▶ Play</button>
+  <button onclick="pause()">⏸ Pause</button>
+  <button onclick="resume()">▶ Resume</button>
+  <button onclick="skip()">⏭ Skip</button>
 </div>
 
-<h2>🎵 Now Playing</h2>
-<div id="now">Nothing playing</div>
+<hr>
 
-<h2>📃 Queue</h2>
+<h2>📁 Folders</h2>
+
+<input id="folderName" placeholder="Folder name">
+<button onclick="createFolder()">Create Folder</button>
+
+<div id="folders"></div>
+
+<hr>
+
+<button onclick="toggleLoop()">🔁 Toggle Loop</button>
+
+<h2>🎵 Now Playing</h2>
+<h3 id="now">Nothing</h3>
+
+<h2>📜 Queue</h2>
 <ul id="queue"></ul>
 
 <script src="app.js"></script>
