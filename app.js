@@ -1,4 +1,4 @@
-const API = "https://scroll-stable-pill-terrain.trycloudflare.com";
+const API = "https://upper-lee-respondents-feeling.trycloudflare.com";
 
 // ▶ PLAY
 function play() {
