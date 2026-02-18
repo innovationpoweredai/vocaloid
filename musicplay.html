@@ -1,115 +1,156 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Vocaloid Player</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Music Player | vocaloid.in</title>
 
-  <style>
-    body {
-      font-family: Arial;
-      background: linear-gradient(135deg, #0f2027, #2c5364);
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
-    h1 {
-      animation: glow 2s infinite alternate;
-    }
+<style>
+:root {
+    --bg: #ffffff;
+    --accent: #00f2ea;
+    --dark: #0a0a0a;
+    --gray: #94a3b8;
+    --br: 32px;
+}
 
-    @keyframes glow {
-      from { text-shadow: 0 0 10px #00f2ff; }
-      to { text-shadow: 0 0 25px #00f2ff; }
-    }
+body {
+    background: var(--bg);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--dark);
+    padding: 40px;
+}
 
-    input {
-      padding: 10px;
-      width: 80%;
-      border-radius: 10px;
-      border: none;
-      margin: 10px;
-    }
+/* TITLE */
+h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+    animation: fadeUp 1s ease;
+}
 
-    button {
-      padding: 10px 15px;
-      border: none;
-      border-radius: 10px;
-      margin: 5px;
-      background: #00f2ff;
-      color: black;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+/* INPUT */
+input {
+    width: 100%;
+    padding: 18px;
+    border-radius: 100px;
+    border: 1px solid #eee;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    transition: 0.3s;
+}
 
-    button:hover {
-      transform: scale(1.1);
-      background: #00c3cc;
-    }
+input:focus {
+    border-color: var(--accent);
+    outline: none;
+}
 
-    #playerBox {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 15px;
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(10px);
-      animation: fadeIn 1s ease;
-    }
+/* BUTTONS */
+button {
+    padding: 14px 25px;
+    border-radius: 100px;
+    border: none;
+    font-weight: 700;
+    margin: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
 
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(20px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
+.primary {
+    background: var(--dark);
+    color: white;
+}
 
-    ul {
-      list-style: none;
-      padding: 0;
-    }
+.secondary {
+    background: transparent;
+    border: 1px solid #ddd;
+}
 
-    li {
-      padding: 5px;
-      animation: slideIn 0.5s ease;
-    }
+button:hover {
+    transform: scale(1.05) translateY(-2px);
+}
 
-    @keyframes slideIn {
-      from {transform: translateX(-20px); opacity: 0;}
-      to {transform: translateX(0); opacity: 1;}
-    }
+/* PLAYER BOX */
+.player-box {
+    background: white;
+    padding: 30px;
+    border-radius: var(--br);
+    border: 1px solid #f0f0f0;
+    margin-bottom: 30px;
+    animation: fadeUp 0.8s ease;
+}
 
-    .folder {
-      background: rgba(255,255,255,0.1);
-      margin: 10px;
-      padding: 10px;
-      border-radius: 10px;
-      animation: fadeIn 0.5s ease;
-    }
-  </style>
+/* QUEUE */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    font-family: 'Space Grotesk';
+    animation: slideUp 0.5s ease;
+}
+
+/* FOLDER */
+.folder {
+    padding: 20px;
+    border: 1px solid #f0f0f0;
+    border-radius: var(--br);
+    margin: 10px 0;
+    transition: 0.3s;
+}
+
+.folder:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+}
+
+/* LOOP BUTTON */
+.loop-btn {
+    margin-top: 10px;
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
 </head>
 
 <body>
 
-<h1>🎧 Vocaloid Player</h1>
+<h1>🎧 Miku Music System</h1>
 
-<div id="playerBox">
-  <input id="song" placeholder="Paste YouTube / Spotify / Playlist">
+<div class="player-box">
+    <input id="song" placeholder="Paste YouTube / Spotify / Playlist">
 
-  <br>
-  <button onclick="play()">▶ Play</button>
-  <button onclick="pause()">⏸ Pause</button>
-  <button onclick="resume()">▶ Resume</button>
-  <button onclick="skip()">⏭ Skip</button>
+    <div>
+        <button class="primary" onclick="play()">Play</button>
+        <button class="secondary" onclick="pause()">Pause</button>
+        <button class="secondary" onclick="resume()">Resume</button>
+        <button class="secondary" onclick="skip()">Skip</button>
+    </div>
 </div>
-
-<hr>
 
 <h2>📁 Folders</h2>
 
-<input id="folderName" placeholder="Folder name">
-<button onclick="createFolder()">Create Folder</button>
+<input id="folderName" placeholder="Create new folder">
+<button class="primary" onclick="createFolder()">Create</button>
 
 <div id="folders"></div>
 
-<hr>
-
-<button onclick="toggleLoop()">🔁 Toggle Loop</button>
+<button class="secondary loop-btn" onclick="toggleLoop()">🔁 Toggle Loop</button>
 
 <h2>🎵 Now Playing</h2>
 <h3 id="now">Nothing</h3>
