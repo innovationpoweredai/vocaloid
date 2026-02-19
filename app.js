@@ -1,5 +1,5 @@
 // 🔥 CHANGE THIS TO YOUR CLOUDFLARE URL
-const API = "https://drew-kiss-steering-thoroughly.trycloudflare.com";
+const API = "https://rabbit-measured-mercury-parcel.trycloudflare.com";
 
 // ================= PLAY =================
 function play() {
