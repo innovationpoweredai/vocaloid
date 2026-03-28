@@ -129,12 +129,15 @@
         .drawer-links a:hover { color: var(--accent); }
 
         /* --- WELCOME WINDOW --- */
-            #welcome-gate {
+        
+        #welcome-gate {
             position: fixed; 
             inset: 0; 
-            /* Added wallpaper with a dark overlay for text contrast */
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('https://freeimage.host/i/qbIsF4I') no-repeat center center;
+            
+            /* 1. Added a direct image link */
+            /* 2. Kept the dark overlay so the white text remains readable */
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://i.ibb.co/v4m0Ym8/background.jpg') no-repeat center center;
             background-size: cover;
             
             z-index: 9999; 
@@ -143,16 +146,6 @@
             align-items: center; 
             transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1);
         }
-        .gate-content { text-align: center; color: white; }
-        .welcome-text {
-            font-size: 6rem; 
-            font-weight: 800; 
-            letter-spacing: -4px;
-            margin-bottom: 10px; 
-            background: linear-gradient(to bottom, #fff, #666);
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent;
-            animation: floatText 3s infinite ease-in-out;
         }
         @keyframes floatText { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
         .gate-status { font-family: 'Space Grotesk'; font-size: 0.9rem; letter-spacing: 5px; margin-bottom: 40px; opacity: 0.5; }
