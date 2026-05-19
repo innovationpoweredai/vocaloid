@@ -70,3 +70,52 @@ In Discord Developer Portal:
 
 1. Go to **OAuth2** → **General** (or **OAuth2** → **Authorization**)
 2. Add **Redirect URLs**:
+3. https://vocaloid.in/auth/callback https://innovationpoweredai.github.io/vocaloid/auth/callback http://localhost:8000/auth/callback
+3. Click **Save**
+
+### 3. Copy Client Secret
+
+1. Still in **OAuth2** → **General**
+2. Look for **CLIENT SECRET**
+3. Click **Reset Secret** or copy existing one
+4. Copy the secret (you'll need this for Supabase)
+
+---
+
+## Part 3: Supabase Discord Provider Setup
+
+### 1. Go to Supabase Authentication
+
+1. In your Supabase project, go to **Authentication**
+2. Click **Providers** on left sidebar
+3. Find **Discord** in the list
+
+### 2. Enable Discord Provider
+
+1. Click on **Discord**
+2. Toggle **Enabled** to ON
+3. Paste your Discord **Client ID** in the first field
+4. Paste your Discord **Client Secret** in the second field
+5. Click **Save**
+
+### 3. Verify Redirect URLs
+
+In Supabase:
+1. Go to **Settings** → **API**
+2. Find **OAuth Redirect URL allowlist**
+3. Make sure these are listed:
+https://vocaloid.in/auth/callback https://innovationpoweredai.github.io/vocaloid/auth/callback http://localhost:8000/auth/callback
+4. If not, add them
+
+---
+
+## Part 4: Update Website Configuration
+
+### 1. Update `js/config.js`
+
+```javascript
+const SUPABASE_CONFIG = {
+URL: 'https://your-project-url.supabase.co',
+ANON_KEY: 'your-anon-key-here',
+// ... rest of config
+};
