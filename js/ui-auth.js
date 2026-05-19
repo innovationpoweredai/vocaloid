@@ -6,6 +6,8 @@
  * Displays user avatar, username, and Discord info.
  */
 
+console.log('[UI-AUTH] Module loaded');
+
 /**
  * Update UI based on authentication state
  * Called whenever auth state changes
@@ -15,29 +17,38 @@ function updateAuthUI() {
   const isAuth = isAuthenticated();
   const isReady = isAuthReady();
 
-  console.log('🎨 Updating auth UI:', {
+  console.log('[UI-AUTH] 🎨 Updating auth UI:', {
     isAuthenticated: isAuth,
     isReady: isReady,
-    user: user?.email
+    userEmail: user?.email,
+    userName: user?.user_metadata?.name
   });
 
   // Update login button
   const loginBtn = document.getElementById('discord-login-btn');
   if (loginBtn) {
     if (isAuth) {
+      const avatar = user.user_metadata?.avatar_url || 'https://via.placeholder.com/32';
+      const name = user.user_metadata?.name || user.email?.split('@')[0] || 'User';
+      
       loginBtn.innerHTML = `
-        <img src="${user.user_metadata?.avatar_url || 'https://via.placeholder.com/32'}" 
-             style="width: 20px; height: 20px; border-radius: 50%; margin-right: 5px;" 
-             alt="Avatar">
-        ${user.user_metadata?.name || user.email?.split('@')[0] || 'User'}
+        <img src="${avatar}" 
+             style="width: 20px; height: 20px; border-radius: 50%; margin-right: 8px;" 
+             alt="Avatar"
+             onerror="this.src='https://via.placeholder.com/32'">
+        ${name}
       `;
       loginBtn.onclick = logout;
       loginBtn.title = 'Click to logout';
+      console.log('[UI-AUTH] ✅ Updated button to authenticated state');
     } else {
       loginBtn.innerHTML = '<i class="fab fa-discord"></i> Login Discord';
       loginBtn.onclick = loginWithDiscord;
       loginBtn.title = 'Login with Discord';
+      console.log('[UI-AUTH] ✅ Updated button to guest state');
     }
+  } else {
+    console.warn('[UI-AUTH] ⚠️  Login button not found in DOM');
   }
 
   // Show/hide protected content
@@ -50,17 +61,21 @@ function updateAuthUI() {
  * @param {Object} user - Current user object
  */
 function updateProtectedContent(isAuth, user) {
-  // Find all elements with auth-required class
+  // Find all elements with auth-required attribute
   const protectedElements = document.querySelectorAll('[data-auth-required]');
   protectedElements.forEach(el => {
     el.style.display = isAuth ? 'block' : 'none';
   });
 
-  // Find all elements with guest-only class
+  // Find all elements with guest-only attribute
   const guestElements = document.querySelectorAll('[data-guest-only]');
   guestElements.forEach(el => {
     el.style.display = isAuth ? 'none' : 'block';
   });
+
+  if (protectedElements.length > 0 || guestElements.length > 0) {
+    console.log('[UI-AUTH] Updated protected content visibility');
+  }
 
   // Update user info display
   if (isAuth && user) {
@@ -76,6 +91,8 @@ function displayUserInfo(user) {
   const username = user.user_metadata?.name || user.email?.split('@')[0] || 'User';
   const avatar = user.user_metadata?.avatar_url || null;
   const discordId = user.user_metadata?.provider_id || user.id;
+
+  console.log('[UI-AUTH] 👤 Displaying user info:', { username, discordId });
 
   // Update username displays
   document.querySelectorAll('[data-user-name]').forEach(el => {
@@ -93,12 +110,6 @@ function displayUserInfo(user) {
   // Update Discord ID displays
   document.querySelectorAll('[data-user-id]').forEach(el => {
     el.textContent = discordId;
-  });
-
-  console.log('✅ User info displayed:', {
-    username,
-    hasAvatar: !!avatar,
-    discordId
   });
 }
 
@@ -126,7 +137,8 @@ function hideAuthLoading() {
  * @param {Number} duration - Duration to show (ms)
  */
 function showAuthError(message, duration = 5000) {
-  // Create toast notification
+  console.error('[UI-AUTH] ❌ Auth error:', message);
+  
   const toast = document.createElement('div');
   toast.style.cssText = `
     position: fixed;
@@ -140,6 +152,7 @@ function showAuthError(message, duration = 5000) {
     z-index: 9999;
     animation: slideIn 0.3s ease-out;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    max-width: 300px;
   `;
   toast.textContent = '❌ ' + message;
   document.body.appendChild(toast);
@@ -155,6 +168,8 @@ function showAuthError(message, duration = 5000) {
  * @param {String} message - Success message
  */
 function showAuthSuccess(message, duration = 3000) {
+  console.log('[UI-AUTH] ✅ Success:', message);
+  
   const toast = document.createElement('div');
   toast.style.cssText = `
     position: fixed;
@@ -169,6 +184,7 @@ function showAuthSuccess(message, duration = 3000) {
     z-index: 9999;
     animation: slideIn 0.3s ease-out;
     box-shadow: 0 10px 30px rgba(0, 242, 234, 0.3);
+    max-width: 300px;
   `;
   toast.textContent = '✅ ' + message;
   document.body.appendChild(toast);
@@ -181,24 +197,24 @@ function showAuthSuccess(message, duration = 3000) {
 
 /* Listen to auth events */
 window.addEventListener(AUTH_EVENTS.LOGIN, (e) => {
-  console.log('👤 Login event received');
+  console.log('[UI-AUTH] 🎉 Login event received');
   showAuthSuccess('Logged in successfully!');
   updateAuthUI();
 });
 
 window.addEventListener(AUTH_EVENTS.LOGOUT, () => {
-  console.log('👤 Logout event received');
+  console.log('[UI-AUTH] 👋 Logout event received');
   showAuthSuccess('Logged out successfully');
   updateAuthUI();
 });
 
 window.addEventListener(AUTH_EVENTS.ERROR, (e) => {
-  console.log('⚠️  Auth error:', e.detail.message);
+  console.error('[UI-AUTH] ⚠️  Auth error event:', e.detail.message);
   showAuthError(e.detail.message);
 });
 
 window.addEventListener(AUTH_EVENTS.SESSION_RESTORED, () => {
-  console.log('✅ Session restoration complete');
+  console.log('[UI-AUTH] 🔄 Session restoration complete');
   updateAuthUI();
   hideAuthLoading();
 });
@@ -230,10 +246,4 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Update UI on page load if auth is ready
-if (isAuthReady()) {
-  updateAuthUI();
-} else {
-  // Wait for session restoration
-  window.addEventListener(AUTH_EVENTS.SESSION_RESTORED, updateAuthUI, { once: true });
-}
+console.log('[UI-AUTH] Module initialization complete');

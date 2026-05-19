@@ -3,21 +3,9 @@
  * 
  * Handles user data synchronization with Supabase database.
  * Creates/updates user records when they authenticate.
- * 
- * Database Schema (create in Supabase):
- * CREATE TABLE public.users (
- *   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
- *   discord_id TEXT UNIQUE NOT NULL,
- *   username TEXT NOT NULL,
- *   email TEXT UNIQUE,
- *   avatar_url TEXT,
- *   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
- *   last_login TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
- *   xp INTEGER DEFAULT 0,
- *   badges JSONB DEFAULT '[]'::jsonb,
- *   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
- * );
  */
+
+console.log('[SESSION] Module loaded');
 
 /**
  * Sync user to database
@@ -27,13 +15,13 @@
  */
 async function syncUserToDatabase(user) {
   if (!user) {
-    console.warn('⚠️  Cannot sync: no user provided');
+    console.warn('[SESSION] ⚠️  Cannot sync: no user provided');
     return;
   }
 
   const client = getSupabaseClient();
   if (!client) {
-    console.error('❌ Supabase client not available');
+    console.error('[SESSION] ❌ Supabase client not available');
     return;
   }
 
@@ -44,7 +32,7 @@ async function syncUserToDatabase(user) {
     const avatarUrl = user.user_metadata?.avatar_url || null;
     const email = user.email || null;
 
-    console.log('📝 Syncing user to database:', {
+    console.log('[SESSION] 📝 Syncing user to database:', {
       discordId,
       username,
       email,
@@ -70,8 +58,7 @@ async function syncUserToDatabase(user) {
     // If insert fails with duplicate, update last_login
     if (insertError) {
       if (insertError.code === '23505') {
-        // Unique constraint violation - user exists
-        console.log('ℹ️  User exists, updating last_login...');
+        console.log('[SESSION] ℹ️  User exists, updating last_login...');
         
         const { data: updateData, error: updateError } = await client
           .from('users')
@@ -85,22 +72,27 @@ async function syncUserToDatabase(user) {
           .single();
 
         if (updateError) {
-          console.error('❌ Failed to update user:', updateError.message);
+          console.error('[SESSION] ❌ Failed to update user:', updateError.message);
           return { data: null, error: updateError };
         }
 
-        console.log('✅ User updated:', updateData);
+        console.log('[SESSION] ✅ User updated:', updateData);
         return { data: updateData, error: null };
       } else {
-        console.error('❌ Failed to sync user:', insertError.message);
+        console.error('[SESSION] ❌ Failed to sync user:', insertError.message);
+        console.error('[SESSION] Error code:', insertError.code);
         return { data: null, error: insertError };
       }
     }
 
-    console.log('✅ New user created:', insertData);
+    console.log('[SESSION] ✅ New user created:', insertData);
     return { data: insertData, error: null };
   } catch (error) {
-    console.error('❌ Unexpected sync error:', error);
+    console.error('[SESSION] ❌ Unexpected sync error:', error);
+    console.error('[SESSION] Error details:', {
+      message: error.message,
+      stack: error.stack
+    });
     return { data: null, error };
   }
 }
@@ -113,7 +105,7 @@ async function syncUserToDatabase(user) {
 async function getUserProfile(discordId) {
   const client = getSupabaseClient();
   if (!client) {
-    console.error('❌ Supabase client not available');
+    console.error('[SESSION] ❌ Supabase client not available');
     return { data: null, error: new Error('Client unavailable') };
   }
 
@@ -125,14 +117,14 @@ async function getUserProfile(discordId) {
       .single();
 
     if (error) {
-      console.error('❌ Failed to fetch profile:', error.message);
+      console.error('[SESSION] ❌ Failed to fetch profile:', error.message);
       return { data: null, error };
     }
 
-    console.log('✅ Profile fetched:', data);
+    console.log('[SESSION] ✅ Profile fetched:', data);
     return { data, error: null };
   } catch (error) {
-    console.error('❌ Unexpected error fetching profile:', error);
+    console.error('[SESSION] ❌ Unexpected error fetching profile:', error);
     return { data: null, error };
   }
 }
@@ -145,7 +137,7 @@ async function getUserProfile(discordId) {
 async function addUserXP(discordId, xpAmount) {
   const client = getSupabaseClient();
   if (!client) {
-    console.error('❌ Supabase client not available');
+    console.error('[SESSION] ❌ Supabase client not available');
     return { data: null, error: new Error('Client unavailable') };
   }
 
@@ -158,13 +150,12 @@ async function addUserXP(discordId, xpAmount) {
       .single();
 
     if (fetchError) {
-      console.error('❌ Failed to fetch user XP:', fetchError.message);
+      console.error('[SESSION] ❌ Failed to fetch user XP:', fetchError.message);
       return { data: null, error: fetchError };
     }
 
     const newXP = (user.xp || 0) + xpAmount;
 
-    // Update XP
     const { data, error } = await client
       .from('users')
       .update({ xp: newXP })
@@ -173,65 +164,16 @@ async function addUserXP(discordId, xpAmount) {
       .single();
 
     if (error) {
-      console.error('❌ Failed to update XP:', error.message);
+      console.error('[SESSION] ❌ Failed to update XP:', error.message);
       return { data: null, error };
     }
 
-    console.log('✅ XP updated:', data);
+    console.log('[SESSION] ✅ XP updated:', data);
     return { data, error: null };
   } catch (error) {
-    console.error('❌ Unexpected error updating XP:', error);
+    console.error('[SESSION] ❌ Unexpected error updating XP:', error);
     return { data: null, error };
   }
 }
 
-/**
- * Add badge to user
- * @param {String} discordId - Discord user ID
- * @param {String} badge - Badge name/ID
- */
-async function addUserBadge(discordId, badge) {
-  const client = getSupabaseClient();
-  if (!client) {
-    console.error('❌ Supabase client not available');
-    return { data: null, error: new Error('Client unavailable') };
-  }
-
-  try {
-    // Get current badges
-    const { data: user, error: fetchError } = await client
-      .from('users')
-      .select('badges')
-      .eq('discord_id', discordId)
-      .single();
-
-    if (fetchError) {
-      console.error('❌ Failed to fetch badges:', fetchError.message);
-      return { data: null, error: fetchError };
-    }
-
-    const badges = user.badges || [];
-    if (!badges.includes(badge)) {
-      badges.push(badge);
-    }
-
-    // Update badges
-    const { data, error } = await client
-      .from('users')
-      .update({ badges })
-      .eq('discord_id', discordId)
-      .select()
-      .single();
-
-    if (error) {
-      console.error('❌ Failed to update badges:', error.message);
-      return { data: null, error };
-    }
-
-    console.log('✅ Badge added:', data);
-    return { data, error: null };
-  } catch (error) {
-    console.error('❌ Unexpected error adding badge:', error);
-    return { data: null, error };
-  }
-}
+console.log('[SESSION] Module initialization complete');

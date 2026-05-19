@@ -4,23 +4,6 @@
  * This file contains Supabase credentials for authentication.
  * These are PUBLIC keys (anon key) - it's safe to expose them.
  * Never expose your SERVICE ROLE KEY in frontend code.
- * 
- * GitHub Pages Setup:
- * - For vocaloid.in (custom domain): Use https://vocaloid.in as redirect URL
- * - For GitHub Pages: Use https://innovationpoweredai.github.io/vocaloid
- * - For localhost development: Use http://localhost:8000
- * 
- * Discord OAuth Configuration:
- * 1. Go to Discord Developer Portal: https://discord.com/developers/applications
- * 2. Create New Application → "vocaloid.in"
- * 3. OAuth2 → General → Add Redirect URLs:
- *    - https://vocaloid.in/auth/callback
- *    - https://innovationpoweredai.github.io/vocaloid/auth/callback
- *    - http://localhost:8000/auth/callback
- * 4. Copy Client ID
- * 5. Go to Supabase Project → Authentication → Providers → Discord
- * 6. Enable Discord provider
- * 7. Paste Client ID and Client Secret
  */
 
 const SUPABASE_CONFIG = {
@@ -40,21 +23,43 @@ const SUPABASE_CONFIG = {
   // Current environment (auto-detected)
   get CURRENT_REDIRECT() {
     const host = window.location.hostname;
+    const protocol = window.location.protocol;
+    
+    console.log('[CONFIG] Detecting environment:', { host, protocol });
     
     if (host === 'vocaloid.in' || host === 'www.vocaloid.in') {
+      console.log('[CONFIG] Using production redirect URL');
       return this.REDIRECT_URLS.production;
     } else if (host.includes('github.io')) {
+      console.log('[CONFIG] Using GitHub Pages redirect URL');
       return this.REDIRECT_URLS.github_pages;
-    } else if (host === 'localhost' || host === '127.0.0.1') {
+    } else if (host === 'localhost' || host === '127.0.0.1' || host === '[::1]') {
+      console.log('[CONFIG] Using localhost redirect URL');
       return this.REDIRECT_URLS.localhost;
     }
     
     // Fallback to current origin
-    return window.location.origin + '/auth/callback';
-  }
+    const fallback = window.location.origin + '/auth/callback';
+    console.log('[CONFIG] Using fallback redirect URL:', fallback);
+    return fallback;
+  },
+  
+  // Debug flag
+  DEBUG: true
 };
+
+// Log configuration on load
+console.log('[CONFIG] Supabase Configuration Loaded:', {
+  url: SUPABASE_CONFIG.URL,
+  keyLength: SUPABASE_CONFIG.ANON_KEY.length,
+  currentRedirect: SUPABASE_CONFIG.CURRENT_REDIRECT,
+  debug: SUPABASE_CONFIG.DEBUG
+});
 
 // Validate configuration
 if (!SUPABASE_CONFIG.URL || !SUPABASE_CONFIG.ANON_KEY) {
-  console.error('❌ Supabase configuration missing! Check config.js');
+  console.error('❌ [CONFIG] Supabase configuration missing! Check config.js');
+  throw new Error('Supabase config missing');
 }
+
+console.log('✅ [CONFIG] Configuration validated');

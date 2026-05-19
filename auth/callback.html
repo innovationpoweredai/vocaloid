@@ -64,6 +64,10 @@
             display: none;
             margin-top: 20px;
             border: 1px solid #fcc;
+            font-family: monospace;
+            font-size: 0.9rem;
+            max-height: 200px;
+            overflow-y: auto;
         }
         
         .error.show {
@@ -89,6 +93,19 @@
             background: #764ba2;
             transform: translateY(-2px);
         }
+        
+        .debug-log {
+            margin-top: 30px;
+            text-align: left;
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            max-height: 200px;
+            overflow-y: auto;
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -98,7 +115,41 @@
         <p id="message">Please wait while we process your Discord login...</p>
         <div class="error" id="error"></div>
         <button class="back-btn" id="backBtn" style="display: none;">Back to Home</button>
+        <div class="debug-log" id="debugLog"></div>
     </div>
+
+    <script>
+        // Add console logging to page
+        const debugLog = document.getElementById('debugLog');
+        const logs = [];
+        
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        function addLog(message, type = 'log') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}`;
+            logs.push(logEntry);
+            debugLog.innerHTML = logs.map(l => l + '<br>').join('');
+            debugLog.scrollTop = debugLog.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog(...args);
+            addLog(args.join(' '), 'log');
+        };
+        
+        console.error = function(...args) {
+            originalError(...args);
+            addLog('ERROR: ' + args.join(' '), 'error');
+        };
+        
+        console.warn = function(...args) {
+            originalWarn(...args);
+            addLog('WARN: ' + args.join(' '), 'warn');
+        };
+    </script>
 
     <script src="../js/config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -114,24 +165,44 @@
          */
 
         async function handleCallback() {
+            console.log('=== CALLBACK HANDLER START ===');
+            console.log('Current URL:', window.location.href);
+            console.log('Hostname:', window.location.hostname);
+            console.log('Pathname:', window.location.pathname);
+            
             const errorDiv = document.getElementById('error');
             const title = document.getElementById('title');
             const message = document.getElementById('message');
             const backBtn = document.getElementById('backBtn');
 
             try {
+                // Wait for Supabase library
+                console.log('Waiting for Supabase library...');
+                if (!window.supabase) {
+                    console.error('Supabase library not found at window.supabase');
+                    console.error('Window keys:', Object.keys(window).filter(k => k.includes('super') || k.includes('supa')));
+                    throw new Error('Supabase library did not load');
+                }
+                console.log('✅ Supabase library available');
+                
                 // Initialize Supabase client
+                console.log('Initializing Supabase client...');
                 const client = getSupabaseClient();
                 if (!client) {
                     throw new Error('Failed to initialize authentication service');
                 }
+                console.log('✅ Client initialized');
 
                 // Check if session was established
+                console.log('Checking for session...');
                 const { data: { session }, error } = await client.auth.getSession();
 
                 if (error) {
+                    console.error('Session error:', error);
                     throw error;
                 }
+
+                console.log('Session data:', session);
 
                 if (!session) {
                     throw new Error('No session established. Please try logging in again.');
@@ -139,18 +210,26 @@
 
                 // Session successful
                 console.log('✅ OAuth callback successful');
-                console.log('User:', session.user.email);
+                console.log('User email:', session.user.email);
+                console.log('User metadata:', session.user.user_metadata);
 
                 // Store that we just authenticated (for UI purposes)
                 sessionStorage.setItem('just_authenticated', 'true');
 
+                // Update UI
+                title.textContent = 'Success!';
+                message.textContent = 'You have been logged in. Redirecting...';
+
                 // Redirect to home
                 setTimeout(() => {
+                    console.log('Redirecting to home...');
                     window.location.href = '/';
                 }, 1500);
 
             } catch (err) {
                 console.error('❌ Authentication failed:', err);
+                console.error('Error message:', err.message);
+                console.error('Error stack:', err.stack);
 
                 // Show error
                 title.textContent = 'Authentication Failed';
@@ -159,22 +238,22 @@
                 errorDiv.classList.add('show');
                 backBtn.style.display = 'inline-block';
                 backBtn.onclick = () => {
+                    console.log('User clicked back button');
                     window.location.href = '/';
                 };
-
-                // Log for debugging
-                console.error('Error details:', {
-                    message: err.message,
-                    stack: err.stack
-                });
             }
         }
 
         // Handle callback on page load
+        console.log('[CALLBACK] Page loaded, state:', document.readyState);
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', handleCallback);
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log('[CALLBACK] DOMContentLoaded event fired');
+                setTimeout(handleCallback, 500);
+            });
         } else {
-            handleCallback();
+            console.log('[CALLBACK] Document already loaded, running callback');
+            setTimeout(handleCallback, 500);
         }
     </script>
 </body>
